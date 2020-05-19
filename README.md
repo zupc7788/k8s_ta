@@ -113,12 +113,32 @@ https://www.centos.org/download/
 ---
 ## 5. Linux 설치
 
+### 언어 설정: 한국어
 ![L1](https://user-images.githubusercontent.com/65584952/82287023-3176a200-99da-11ea-8c58-a8f38a0b7237.PNG)
-![L2](https://user-images.githubusercontent.com/65584952/82287024-3176a200-99da-11ea-86c4-0a1de1f9480e.PNG)
+
+### 파티션 설정:설치 대상 선택
+![L2_2](https://user-images.githubusercontent.com/65584952/82292025-02196280-99e5-11ea-80f7-1ea56e87f2a3.png)
+
+### 파티션 설정: 자동으로 선택
+실제 운영기에 구성할때는 용도별로 파일시스템과 Swap 파티션을 구분하여 설정하나,
+금번 테스트 환경은 자동으로 생성함 (/에 전체 파일시스템 할당 및 Swap 자동 생성)
+
 ![L3](https://user-images.githubusercontent.com/65584952/82287025-320f3880-99da-11ea-98b8-29746a3d906c.PNG)
+
+### 네트워크 설정: 네트워크 및 호스트명 선택
 ![L4](https://user-images.githubusercontent.com/65584952/82287027-320f3880-99da-11ea-9d32-38b71aea24cc.PNG)
+
+### 네트워크 설정: 호스트명 및 이더넷 카드 활성화
+1. 이더넷 카드 On
+2. 호스트명 입력 -> 적용
+3. 완료
 ![l5](https://user-images.githubusercontent.com/65584952/82287018-2facde80-99da-11ea-8199-a29949452966.PNG)
+
+### 설치 시작
+OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 ![L6](https://user-images.githubusercontent.com/65584952/82287019-30457500-99da-11ea-803e-3d0d3240530d.PNG)
+
+### ROOT암호 설정
 ![L7](https://user-images.githubusercontent.com/65584952/82287022-30de0b80-99da-11ea-8f7b-3c7c80842b73.PNG)
 
 ---
