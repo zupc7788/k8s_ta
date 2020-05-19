@@ -160,6 +160,7 @@ vi /etc/hosts
 
 추가로 디스크 관리 패키지와 네트워크 관리 패키지를 설치한다.
 
+[패키지 업데이트]
 ```
 yum -y update
 yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
@@ -172,6 +173,7 @@ SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스�
 따라서 기본적으로 OS가 제공하는 툴이 아닐 경우 정상 작동하지 않는 경우가 다수 존재하므로 반드시 Permissive로 변경한다.
 
 1. Enforcing(작동), 2. Permissive(작동하지 않으나 기록), 3. Disabled(완전 중지)
+
 [설정 변경]
 ```
 setenforce 0
