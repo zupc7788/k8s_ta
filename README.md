@@ -242,7 +242,98 @@ systemctl stop firewalld && systemctl disable firewalld
 
 
 ---
-## 7. Kubernetes Dependency 제품 설정
+## 7. Docker, Kubernetes 엔진 설치
+
+### 가. Docker 설치
+
+#### [설치 명령]
+Docker 설치 위한 Yum Repository를 추가 한 후, Yum으로 패키지 설치 진행한다.
+
+Yum Repository를 추가하지 않을 경우, OS Default Repository에서 다운로드 받으므로 주의 한다.
+
+또한 만약 내부망에서 구성할 경우에는 외부 Repository를 연동 할 수 없으므로 Forward Proxy방식의 Yum Repository를 추가 구축해야 한다.
+
+```
+yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io -y
+```
+
+#### [진행 과정]
+
+
+```
+[root@test-master ~]# yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
+Loaded plugins: fastestmirror
+adding repo from: https://download.docker.com/linux/centos/docker-ce.repo
+grabbing file https://download.docker.com/linux/centos/docker-ce.repo to /etc/yum.repos.d/docker-ce.repo
+repo saved to /etc/yum.repos.d/docker-ce.repo
+[root@test-master ~]# yum install docker-ce docker-ce-cli containerd.io -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.navercorp.com
+ * extras: mirror.navercorp.com
+ * updates: mirror.kakao.com
+docker-ce-stable                                                                                                                      | 3.5 kB  00:00:00
+(1/2): docker-ce-stable/x86_64/primary_db                                                                                             |  42 kB  00:00:00
+(2/2): docker-ce-stable/x86_64/updateinfo                                                                                             |   55 B  00:00:00
+Resolving Dependencies
+--> Running transaction check
+---> Package containerd.io.x86_64 0:1.2.13-3.2.el7 will be installed
+--> Processing Dependency: container-selinux >= 2:2.74 for package: containerd.io-1.2.13-3.2.el7.x86_64
+--> Processing Dependency: libseccomp for package: containerd.io-1.2.13-3.2.el7.x86_64
+---> Package docker-ce.x86_64 3:19.03.9-3.el7 will be installed
+--> Processing Dependency: libcgroup for package: 3:docker-ce-19.03.9-3.el7.x86_64
+---> Package docker-ce-cli.x86_64 1:19.03.9-3.el7 will be installed
+--> Running transaction check
+---> Package container-selinux.noarch 2:2.119.1-1.c57a6f9.el7 will be installed
+--> Processing Dependency: policycoreutils-python for package: 2:container-selinux-2.119.1-1.c57a6f9.el7.noarch
+---> Package libcgroup.x86_64 0:0.41-21.el7 will be installed
+---> Package libseccomp.x86_64 0:2.3.1-4.el7 will be installed
+--> Running transaction check
+---> Package policycoreutils-python.x86_64 0:2.5-34.el7 will be installed
+--> Processing Dependency: setools-libs >= 3.3.8-4 for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libsemanage-python >= 2.5-14 for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: audit-libs-python >= 2.1.3-4 for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: python-IPy for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libqpol.so.1(VERS_1.4)(64bit) for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libqpol.so.1(VERS_1.2)(64bit) for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libapol.so.4(VERS_4.0)(64bit) for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: checkpolicy for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libqpol.so.1()(64bit) for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Processing Dependency: libapol.so.4()(64bit) for package: policycoreutils-python-2.5-34.el7.x86_64
+--> Running transaction check
+---> Package audit-libs-python.x86_64 0:2.8.5-4.el7 will be installed
+---> Package checkpolicy.x86_64 0:2.5-8.el7 will be installed
+---> Package libsemanage-python.x86_64 0:2.5-14.el7 will be installed
+---> Package python-IPy.noarch 0:0.75-6.el7 will be installed
+---> Package setools-libs.x86_64 0:3.3.8-4.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================================================
+ Package                                   Arch                      Version                                       Repository                           Size
+=============================================================================================================================================================
+Installing:
+ containerd.io                             x86_64                    1.2.13-3.2.el7                                docker-ce-stable                     25 M
+ docker-ce                                 x86_64                    3:19.03.9-3.el7                               docker-ce-stable                     24 M
+ docker-ce-cli                             x86_64                    1:19.03.9-3.el7                               docker-ce-stable                     38 M
+Installing for dependencies:
+ audit-libs-python                         x86_64                    2.8.5-4.el7                                   base                                 76 k
+ checkpolicy                               x86_64                    2.5-8.el7                                     base                                295 k
+ container-selinux                         noarch                    2:2.119.1-1.c57a6f9.el7                       extras                               40 k
+ libcgroup                                 x86_64                    0.41-21.el7                                   base                                 66 k
+ libseccomp                                x86_64                    2.3.1-4.el7                                   base                                 56 k
+ libsemanage-python                        x86_64                    2.5-14.el7                                    base                                113 k
+ policycoreutils-python                    x86_64                    2.5-34.el7                                    base                                457 k
+ python-IPy                                noarch                    0.75-6.el7                                    base                                 32 k
+ setools-libs                              x86_64                    3.3.8-4.el7                                   base                                620 k
+
+Transaction Summary
+=============================================================================================================================================================
+Install  3 Packages (+9 Dependent packages)
+
+```
 ---
 ## 8. Master Node 구성
 ---
