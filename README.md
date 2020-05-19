@@ -146,17 +146,61 @@ OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 ### 가. hosts파일 수정(/etc/hosts)
 /etc/hosts파일에 각 서버의 호스트명과 IP를 입력한다. (IP는 ip a 명령으로 확인 가능)
 ```
-test-master 192.168.111.169
-test-node1	192.168.111.172
-test-node2 	192.168.111.173
-test-node3	192.168.111.170
+
+vi /etc/hosts
+192.168.111.169	test-master
+192.168.111.172	test-node1
+192.168.111.173	test-node2
+192.168.111.170	test-node3
 ```
 
-### 나. Linux 최신 업데이트 및 추가 유틸리티 설치
+### 나. Linux 최신 업데이트 및 추가 유틸리티 설치 (root계정)
+
+리눅스에 설치된 패키지를 최신 버전으로 업데이트 한다.
+
+추가로 디스크 관리 패키지와 네트워크 관리 패키지를 설치한다.
+
 ```
 yum -y update
 yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
 ```
+
+### 다. SELinux(Security Enhanced Linux) 작동 중지
+
+SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스나 Native Object에 대한 관리를 수행한다.
+
+따라서 기본적으로 OS가 제공하는 툴이 아닐 경우 정상 작동하지 않는 경우가 다수 존재하므로 반드시 Permissive로 변경한다.
+
+1. Enforcing(작동), 2. Permissive(작동하지 않으나 기록), 3. Disabled(완전 중지)
+```
+setenforce 0
+sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
+
+### 라. OS 스왑 중지
+메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다.
+
+하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다.
+
+(ex. Kubernetes, Oracle Database등)
+
+```
+swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+```
+
+### 마. OS방화벽 중지
+보안정책이 잘 짜여진 기업의 경우는, 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다.
+
+Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용하며, 전통적으로는 iptables로 제어하기도 한다.
+
+하지만 Kubernetes의 경우는, 자체적으로 Kube-proxy정책에 의해 라우팅 룰이 정의 되므로 반드시 OS방화벽을 Off해야 한다.
+
+(사실 켜도 룰이 작동 안 된다.)
+
+```
+systemctl stop firewalld && systemctl disable firewalld
+```
+
 
 ---
 ## 7. Kubernetes Dependency 제품 설정
