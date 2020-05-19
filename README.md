@@ -1,10 +1,10 @@
-## 개요
+# 개요
 금번 활동을 통해 Private Cloud 환경을 구축하는 방법에 대해 이해한다.
 
 ---
 
 
-## 목표 아키텍처
+# 목표 아키텍처
 
 해당 메뉴얼을 통해 Kubernetes 기반의 Private Cloud 시스템 구축을 수행한다. (TA,PA 영역)
 
@@ -14,7 +14,7 @@
 ![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
 ---
 
-## 수행 절차
+# 수행 절차
 
 K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절차에 따라 진행한다.
 
@@ -32,9 +32,9 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 ---
 
-## Infra 구성(VM구축)
+# Infra 구성(VM구축)
 
-### 1. 기본 Technical Architecture 설계
+## 1. 기본 Technical Architecture 설계
 
 금번 테스트 환경 구축은 단일 Master Node에 3개 Worker Node로 이루어진 클러스터를 구축한다.
 
@@ -44,7 +44,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 
 ---
-### 2. VM 스펙 선정
+## 2. VM 스펙 선정
 
 VMWare에서 다음 스펙으로 VM주문한다. 
 
@@ -60,7 +60,7 @@ VMWare에서 다음 스펙으로 VM주문한다.
 
 ---
 
-### 3. OS 이미지 다운로드
+## 3. OS 이미지 다운로드
 
 아래 다운로드 링크에서 이미지를 다운로드 한다.
 
@@ -81,14 +81,7 @@ https://www.centos.org/download/
 ---
 
 
-
-
-
-
-
-
-
-### 4. VM 생성
+## 4. VM 생성
 
 금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다.
 
@@ -96,35 +89,35 @@ https://www.centos.org/download/
 
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
 
-#### New Virtual Machine 생성
+### New Virtual Machine 생성
 ![V1](https://user-images.githubusercontent.com/65584952/82286541-e90ab480-99d8-11ea-97ba-eb60a7a80a7e.png)
 
-#### Linux 생성
+### Linux 생성
 ![V2](https://user-images.githubusercontent.com/65584952/82286543-e9a34b00-99d8-11ea-8a72-c327e07d1af1.png)
 
-#### VM명 지정 (Master, node1, node2, node3등 구분이 쉽게 지정)
+### VM명 지정 (Master, node1, node2, node3등 구분이 쉽게 지정)
 ![V3](https://user-images.githubusercontent.com/65584952/82286546-e9a34b00-99d8-11ea-86f2-ff1e013427db.png)
 
-#### First Disk 용량 지정 (향후 증설 가능하나 LVM작업이 추가 필요하므로 Node는 가급적 60GB이상 설정)
+### First Disk 용량 지정 (향후 증설 가능하나 LVM작업이 추가 필요하므로 Node는 가급적 60GB이상 설정)
 ![V4](https://user-images.githubusercontent.com/65584952/82286547-ea3be180-99d8-11ea-931b-81011a8d559a.png)
 
-#### VM 기본 설정 완료
+### VM 기본 설정 완료
 ![V5](https://user-images.githubusercontent.com/65584952/82286534-e6a85a80-99d8-11ea-8ec5-7deb24e401f5.png)
 
-#### VM 세부 설정 수행
+### VM 세부 설정 수행
 ![V6](https://user-images.githubusercontent.com/65584952/82286535-e7d98780-99d8-11ea-9ce6-940afbad7d72.png)
 
-#### Processors와 Memory를 사전 정의한 스펙으로 변경
+### Processors와 Memory를 사전 정의한 스펙으로 변경
 ![V7](https://user-images.githubusercontent.com/65584952/82286537-e7d98780-99d8-11ea-9884-59e315e865ab.png)
 
 ---
-### 5. Linux 설치
+## 5. Linux 설치
 
 
 ---
-## 목표 아키텍처
+# 목표 아키텍처
 
-### 2. 서비스 아키텍처
+## 2. 서비스 아키텍처
 ![2](https://user-images.githubusercontent.com/53555895/82279301-2bc39100-99c7-11ea-9ebb-55ff9b6bb3e0.PNG)
 
 
@@ -133,5 +126,5 @@ https://www.centos.org/download/
 
 
 
-## K8S기본 구성
+# K8S기본 구성
 
