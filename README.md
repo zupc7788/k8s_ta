@@ -6,9 +6,12 @@
 
 # 목표 아키텍처
 
-해당 메뉴얼을 통해 Kubernetes 기반의 Private Cloud 시스템 구축을 수행한다. (TA,PA 영역)
+해당 메뉴얼을 통해 Kubernetes 기반의 Private Cloud 시스템 구축을 수행한다. (TA,PA, AA 영역)
 
-또한 보안상 이슈가 될 수 있는 Service Migration 관련된 내용은 포함하지 않는다. 
+또한 보안상 이슈가 될 수 있는 특정 기업의 Service 관련 컨텐츠는 포함하지 않으며,
+
+구성원이 TA구성부터 PA, AA를 전반적으로 구성할 수 있도록 제품 중심으로 메뉴얼화 한다.
+
 
 
 ![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
