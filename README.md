@@ -476,6 +476,22 @@ systemctl enable --now kubelet && systemctl start kubelet
 
 ---
 ## 8. Master Node 구성
+
+### 가. Kubeadm 초기화 수행 (Master Node에서만 수행)
+
+kubeadm init명령으로 수행하여 Master Node를 초기 구성한다.
+
+pod-network-cidr은 K8S POD의 네트워크 설정이며, POD간의 통신을 위한 애드온인 pod Network Add-on 이 사용하는 CIDR값이다.
+
+해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다.
+
+```
+kubeadm init --pod-network-cidr 10.244.0.0/16
+```
+
+```
+ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ
+```
 ---
 ## 9. K8S Client 구성
 ---
