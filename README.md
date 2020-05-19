@@ -148,18 +148,12 @@ OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 ---
 ## 8. Master Node 구성
 ---
-## 9. Worker Node 구성
+## 9. K8S Client 구성
 ---
-# 목표 아키텍처
-
-## 2. 서비스 아키텍처
-![2](https://user-images.githubusercontent.com/53555895/82279301-2bc39100-99c7-11ea-9ebb-55ff9b6bb3e0.PNG)
-
-
-
-
-
-
-
-# K8S기본 구성
-
+## 10. Worker Node 구성
+---
+## 11. Docker Registry 구성
+---
+## 12. Application Load Balancer 구성
+---
+## 13. Shared Storage (NFS) 구성
