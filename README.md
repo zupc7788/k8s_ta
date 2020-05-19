@@ -193,12 +193,13 @@ Permissive
 
 (ex. Kubernetes, Oracle Database등)
 
-[설정 전: swap이 3GB 설정되어 있음]
+*[설정 전: swap이 3GB 설정되어 있음]*
 ```
 [root@test-master ~]# free -m
               total        used        free      shared  buff/cache   available
 Mem:           2784         217        2033          11         533        2338
 Swap:          3071           0        3071
+```
 
 [설정: swap off 및 fstab에 영구 swap off 설정 적용]
 ```
