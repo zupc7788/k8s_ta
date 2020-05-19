@@ -160,7 +160,7 @@ vi /etc/hosts
 
 추가로 디스크 관리 패키지와 네트워크 관리 패키지를 설치한다.
 
-[패키지 업데이트]
+#### [패키지 업데이트]
 ```
 yum -y update
 yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
@@ -174,13 +174,13 @@ SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스�
 
 1. Enforcing(작동), 2. Permissive(작동하지 않으나 기록), 3. Disabled(완전 중지)
 
-[설정 변경]
+#### [설정 변경]
 ```
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 ```
 
-[확인]
+#### [확인]
 ```
 [root@test-node1 ~]# getenforce
 Permissive
@@ -193,7 +193,7 @@ Permissive
 
 (ex. Kubernetes, Oracle Database등)
 
-*[설정 전: swap이 3GB 설정되어 있음]*
+#### [설정 전: swap이 3GB 설정되어 있음]
 ```
 [root@test-master ~]# free -m
               total        used        free      shared  buff/cache   available
@@ -201,12 +201,12 @@ Mem:           2784         217        2033          11         533        2338
 Swap:          3071           0        3071
 ```
 
-[설정: swap off 및 fstab에 영구 swap off 설정 적용]
+#### [설정: swap off 및 fstab에 영구 swap off 설정 적용]
 ```
 swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
 ```
 
-[확인: Swap이 0GB로 변경 됨]
+#### [확인: Swap이 0GB로 변경 됨]
 ```
 [root@test-master ~]# free -m
               total        used        free      shared  buff/cache   available
@@ -224,6 +224,7 @@ Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용�
 
 (사실 켜도 룰이 작동 안 된다.)
 
+#### [OS방화벽 중지]
 ```
 systemctl stop firewalld && systemctl disable firewalld
 ```
