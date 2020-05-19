@@ -143,6 +143,21 @@ OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 
 ---
 ## 6. Linux OS 환경 설정
+### 가. hosts파일 수정(/etc/hosts)
+/etc/hosts파일에 각 서버의 호스트명과 IP를 입력한다. (IP는 ip a 명령으로 확인 가능)
+```
+test-master 192.168.111.169
+test-node1	192.168.111.172
+test-node2 	192.168.111.173
+test-node3	192.168.111.170
+```
+
+### 나. Linux 최신 업데이트 및 추가 유틸리티 설치
+```
+yum -y update
+yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
+```
+
 ---
 ## 7. Kubernetes Dependency 제품 설정
 ---
