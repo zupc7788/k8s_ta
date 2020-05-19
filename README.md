@@ -474,9 +474,6 @@ systemctl enable 명령으로 서비스 등록. (추후 리눅스 재부팅시�
 systemctl enable --now kubelet && systemctl start kubelet
 ```
 
-yum을 통해 Master 및 Node에 Kubernetes 패키지를 설치한다.
-
-
 ---
 ## 8. Master Node 구성
 ---
