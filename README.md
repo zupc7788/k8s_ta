@@ -113,6 +113,13 @@ https://www.centos.org/download/
 ---
 ## 5. Linux 설치
 
+![L1](https://user-images.githubusercontent.com/65584952/82287023-3176a200-99da-11ea-8c58-a8f38a0b7237.PNG)
+![L2](https://user-images.githubusercontent.com/65584952/82287024-3176a200-99da-11ea-86c4-0a1de1f9480e.PNG)
+![L3](https://user-images.githubusercontent.com/65584952/82287025-320f3880-99da-11ea-98b8-29746a3d906c.PNG)
+![L4](https://user-images.githubusercontent.com/65584952/82287027-320f3880-99da-11ea-9d32-38b71aea24cc.PNG)
+![l5](https://user-images.githubusercontent.com/65584952/82287018-2facde80-99da-11ea-8199-a29949452966.PNG)
+![L6](https://user-images.githubusercontent.com/65584952/82287019-30457500-99da-11ea-803e-3d0d3240530d.PNG)
+![L7](https://user-images.githubusercontent.com/65584952/82287022-30de0b80-99da-11ea-8f7b-3c7c80842b73.PNG)
 
 ---
 # 목표 아키텍처
