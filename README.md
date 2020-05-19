@@ -229,6 +229,17 @@ Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용�
 systemctl stop firewalld && systemctl disable firewalld
 ```
 
+#### [OS방화벽 상태 확인]
+다음과 같이 Active상태가 "inactive (dead)" 일 경우 정상적으로 중지된 것이다.
+
+```
+[root@test-master ~]# systemctl status firewalld
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:firewalld(1)
+```
+
 
 ---
 ## 7. Kubernetes Dependency 제품 설정
