@@ -334,6 +334,59 @@ Transaction Summary
 Install  3 Packages (+9 Dependent packages)
 
 ```
+### 나. Docker 기동
+#### [Docker 기동]
+```
+systemctl start docker && systemctl enable docker
+```
+
+### 다. Kubernetes Repository 추가
+아래 명령어를 통해 /etc/yum.repos.d 경로에 Kubernetes Repository를 추가한다.
+
+```
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+```
+
+#### 라. Kubernetes Repository 추가 확인
+
+yum -y update를 통해 추가된 Repository를 확인한다.
+```
+[root@test-master ~]# yum -y update
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.navercorp.com
+ * extras: mirror.navercorp.com
+ * updates: mirror.kakao.com
+kubernetes/signature                                                                                  |  454 B  00:00:00
+Retrieving key from https://packages.cloud.google.com/yum/doc/yum-key.gpg
+Importing GPG key 0xA7317B0F:
+ Userid     : "Google Cloud Packages Automatic Signing Key <gc-team@google.com>"
+ Fingerprint: d0bc 747f d8ca f711 7500 d6fa 3746 c208 a731 7b0f
+ From       : https://packages.cloud.google.com/yum/doc/yum-key.gpg
+Retrieving key from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+kubernetes/signature                                                                                  | 1.4 kB  00:00:00 !!!
+kubernetes/primary                                                                                    |  68 kB  00:00:01
+kubernetes                                                                                                           496/496
+No packages marked for update
+
+```
+
+#### 마. Kubernetes 패키지 설치
+
+yum을 통해 Master 및 Node에 Kubernetes 패키지를 설치한다.
+
+```
+yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+systemctl enable --now kubelet && systemctl start kubelet
+```
 ---
 ## 8. Master Node 구성
 ---
