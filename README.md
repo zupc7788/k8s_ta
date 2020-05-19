@@ -172,9 +172,16 @@ SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스�
 따라서 기본적으로 OS가 제공하는 툴이 아닐 경우 정상 작동하지 않는 경우가 다수 존재하므로 반드시 Permissive로 변경한다.
 
 1. Enforcing(작동), 2. Permissive(작동하지 않으나 기록), 3. Disabled(완전 중지)
+[설정 변경]
 ```
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
+
+[확인]
+```
+[root@test-node1 ~]# getenforce
+Permissive
 ```
 
 ### 라. OS 스왑 중지
@@ -184,8 +191,25 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
 (ex. Kubernetes, Oracle Database등)
 
+[설정 전: swap이 3GB 설정되어 있음]
+```
+[root@test-master ~]# free -m
+              total        used        free      shared  buff/cache   available
+Mem:           2784         217        2033          11         533        2338
+Swap:          3071           0        3071
+
+[설정: swap off 및 fstab에 영구 swap off 설정 적용]
 ```
 swapoff -a && sed -i '/swap/s/^/#/' /etc/fstab
+```
+
+[확인: Swap이 0GB로 변경 됨]
+```
+[root@test-master ~]# free -m
+              total        used        free      shared  buff/cache   available
+Mem:           2784         216        2035          11         532        2339
+Swap:             0           0           0
+
 ```
 
 ### 마. OS방화벽 중지
