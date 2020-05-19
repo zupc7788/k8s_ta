@@ -11,7 +11,7 @@
 또한 보안상 이슈가 될 수 있는 Service Migration 관련된 내용은 포함하지 않는다. 
 
 
-![1](https://user-images.githubusercontent.com/53555895/82279300-2b2afa80-99c7-11ea-829a-7893e925812e.PNG)
+![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
 ---
 
 ## 수행 절차
@@ -40,7 +40,8 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 일반적으로 실제 엔터프라이즈 환경에서는 falut-tolerantf를 고려하여 Master 서버는 3, 5, 7대로 이중화하여 구성하는게 보통이나, 금번 테스트 환경은 단일 Master 서버로 구성했다.
 
-![3](https://user-images.githubusercontent.com/53555895/82279296-29f9cd80-99c7-11ea-91f0-c83ec1acc703.jpg)
+![3](https://user-images.githubusercontent.com/65584952/82286703-4272e380-99d9-11ea-9ac3-17a3fcf8ea4e.jpg)
+
 
 ---
 ### 2. VM 스펙 선정
@@ -78,6 +79,15 @@ https://www.centos.org/download/
 ```
 
 ---
+
+
+
+
+
+
+
+
+
 ### 4. VM 생성
 
 금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다.
@@ -87,25 +97,25 @@ https://www.centos.org/download/
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
 
 #### New Virtual Machine 생성
-![V1](https://user-images.githubusercontent.com/53555895/82284518-2456b480-99d4-11ea-96fc-163d7a39409c.png)
+![V1](https://user-images.githubusercontent.com/65584952/82286541-e90ab480-99d8-11ea-97ba-eb60a7a80a7e.png)
 
 #### Linux 생성
-![V2](https://user-images.githubusercontent.com/53555895/82284519-24ef4b00-99d4-11ea-9255-012dee18a081.png)
+![V2](https://user-images.githubusercontent.com/65584952/82286543-e9a34b00-99d8-11ea-8a72-c327e07d1af1.png)
 
 #### VM명 지정 (Master, node1, node2, node3등 구분이 쉽게 지정)
-![V3](https://user-images.githubusercontent.com/53555895/82284521-24ef4b00-99d4-11ea-9ac9-ab5be9a5cec5.png)
+![V3](https://user-images.githubusercontent.com/65584952/82286546-e9a34b00-99d8-11ea-86f2-ff1e013427db.png)
 
 #### First Disk 용량 지정 (향후 증설 가능하나 LVM작업이 추가 필요하므로 Node는 가급적 60GB이상 설정)
-![V4](https://user-images.githubusercontent.com/53555895/82284509-21f45a80-99d4-11ea-95f4-848a1f01f35e.png)
+![V4](https://user-images.githubusercontent.com/65584952/82286547-ea3be180-99d8-11ea-931b-81011a8d559a.png)
 
 #### VM 기본 설정 완료
-![V5](https://user-images.githubusercontent.com/53555895/82284514-23258780-99d4-11ea-8058-3249ac22ffa7.png)
+![V5](https://user-images.githubusercontent.com/65584952/82286534-e6a85a80-99d8-11ea-8ec5-7deb24e401f5.png)
 
 #### VM 세부 설정 수행
-![V6](https://user-images.githubusercontent.com/53555895/82284515-23be1e00-99d4-11ea-8adb-e5d709fb037e.png)
+![V6](https://user-images.githubusercontent.com/65584952/82286535-e7d98780-99d8-11ea-9ce6-940afbad7d72.png)
 
 #### Processors와 Memory를 사전 정의한 스펙으로 변경
-![V7](https://user-images.githubusercontent.com/53555895/82284517-23be1e00-99d4-11ea-8740-ed80f626ee50.png)
+![V7](https://user-images.githubusercontent.com/65584952/82286537-e7d98780-99d8-11ea-9884-59e315e865ab.png)
 
 ---
 ### 5. Linux 설치
