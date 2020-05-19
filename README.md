@@ -355,9 +355,11 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 ```
 
-#### 라. Kubernetes Repository 추가 확인
+### 라. Kubernetes Repository 추가 확인
 
 yum -y update를 통해 추가된 Repository를 확인한다.
+
+#### [확인 절차]
 ```
 [root@test-master ~]# yum -y update
 Loaded plugins: fastestmirror
@@ -379,14 +381,102 @@ No packages marked for update
 
 ```
 
-#### 마. Kubernetes 패키지 설치
+### 마. Kubernetes 패키지 설치
 
 yum을 통해 Master 및 Node에 Kubernetes 패키지를 설치한다.
 
+#### [패키지 설치 절차]
 ```
 yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+```
+
+#### [패키지 설치 진행 내역]
+```
+[root@test-node1 ~]# yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: ftp.kaist.ac.kr
+ * extras: ftp.kaist.ac.kr
+ * updates: ftp.kaist.ac.kr
+kubernetes/signature                                                                                  |  454 B  00:00:00
+Retrieving key from https://packages.cloud.google.com/yum/doc/yum-key.gpg
+Importing GPG key 0xA7317B0F:
+ Userid     : "Google Cloud Packages Automatic Signing Key <gc-team@google.com>"
+ Fingerprint: d0bc 747f d8ca f711 7500 d6fa 3746 c208 a731 7b0f
+ From       : https://packages.cloud.google.com/yum/doc/yum-key.gpg
+Retrieving key from https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+kubernetes/signature                                                                                  | 1.4 kB  00:00:00 !!!
+kubernetes/primary                                                                                    |  68 kB  00:00:01
+kubernetes                                                                                                           496/496
+Resolving Dependencies
+--> Running transaction check
+---> Package kubeadm.x86_64 0:1.18.2-0 will be installed
+--> Processing Dependency: kubernetes-cni >= 0.7.5 for package: kubeadm-1.18.2-0.x86_64
+--> Processing Dependency: cri-tools >= 1.13.0 for package: kubeadm-1.18.2-0.x86_64
+---> Package kubectl.x86_64 0:1.18.2-0 will be installed
+---> Package kubelet.x86_64 0:1.18.2-0 will be installed
+--> Processing Dependency: socat for package: kubelet-1.18.2-0.x86_64
+--> Processing Dependency: conntrack for package: kubelet-1.18.2-0.x86_64
+--> Running transaction check
+---> Package conntrack-tools.x86_64 0:1.4.4-7.el7 will be installed
+--> Processing Dependency: libnetfilter_cttimeout.so.1(LIBNETFILTER_CTTIMEOUT_1.1)(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+--> Processing Dependency: libnetfilter_cttimeout.so.1(LIBNETFILTER_CTTIMEOUT_1.0)(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+--> Processing Dependency: libnetfilter_cthelper.so.0(LIBNETFILTER_CTHELPER_1.0)(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+--> Processing Dependency: libnetfilter_queue.so.1()(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+--> Processing Dependency: libnetfilter_cttimeout.so.1()(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+--> Processing Dependency: libnetfilter_cthelper.so.0()(64bit) for package: conntrack-tools-1.4.4-7.el7.x86_64
+---> Package cri-tools.x86_64 0:1.13.0-0 will be installed
+---> Package kubernetes-cni.x86_64 0:0.7.5-0 will be installed
+---> Package socat.x86_64 0:1.7.3.2-2.el7 will be installed
+--> Running transaction check
+---> Package libnetfilter_cthelper.x86_64 0:1.0.0-11.el7 will be installed
+---> Package libnetfilter_cttimeout.x86_64 0:1.0.0-7.el7 will be installed
+---> Package libnetfilter_queue.x86_64 0:1.0.2-2.el7_2 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================
+ Package                               Arch                  Version                         Repository                 Size
+=============================================================================================================================
+Installing:
+ kubeadm                               x86_64                1.18.2-0                        kubernetes                8.8 M
+ kubectl                               x86_64                1.18.2-0                        kubernetes                9.5 M
+ kubelet                               x86_64                1.18.2-0                        kubernetes                 21 M
+Installing for dependencies:
+ conntrack-tools                       x86_64                1.4.4-7.el7                     base                      187 k
+ cri-tools                             x86_64                1.13.0-0                        kubernetes                5.1 M
+ kubernetes-cni                        x86_64                0.7.5-0                         kubernetes                 10 M
+ libnetfilter_cthelper                 x86_64                1.0.0-11.el7                    base                       18 k
+ libnetfilter_cttimeout                x86_64                1.0.0-7.el7                     base                       18 k
+ libnetfilter_queue                    x86_64                1.0.2-2.el7_2                   base                       23 k
+ socat                                 x86_64                1.7.3.2-2.el7                   base                      290 k
+
+Transaction Summary
+=============================================================================================================================
+Install  3 Packages (+7 Dependent packages)
+
+Total download size: 55 M
+Installed size: 246 M
+Downloading packages:
+중략
+```
+
+
+### 바. Kubernetes 서비스 기동 및 영구 서비스 등록
+systemctl start 명령으로 서비스 기동.
+
+systemctl enable 명령으로 서비스 등록. (추후 리눅스 재부팅시에도 자동 기동됨)
+
+#### [서비스 기동 및 등록]
+```
 systemctl enable --now kubelet && systemctl start kubelet
 ```
+
+yum을 통해 Master 및 Node에 Kubernetes 패키지를 설치한다.
+
+
 ---
 ## 8. Master Node 구성
 ---
