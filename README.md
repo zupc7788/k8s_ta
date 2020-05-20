@@ -642,10 +642,42 @@ Master의 .kube/config 파일을 동일한 경로로 카피한다.
 ---
 ## 10. Container Network Interface 구성
 
-### 가. CNI 설치
+POD간의 통신이 이루어질 수 있도록 CNI를 설치하여 오버레이 네트워크(overlay network)를 구성한다.
+
+해당 네트워크를 구성해야 실제 노드간의 Flat한 통신이 가능하며, 만약 설정하지 않을 경우, 단일 노드를 벗어나는 통신은 되지 않는다.
+
+### 설치 절차
+
+CNI플러그인은 Calico, Flannel, Weave-net등 다양한 CNI플러그인을 제공하며,
+대부분의 역할을 유사하나, 네트워크 정책 관리의 특성이나 보안관련 특성이 상이할 수 있다.
+
+다양한 CNI를 선택적으로 설치할 수 있으나, 금번 환경 구성에서는 weave-net을 설치한다. 
+
+
+#### 가. CNI 설치
+
 ```
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-v                                                                          ersion=$(kubectl version | base64 | tr -d '\n')"
 ```
+
+#### 나. 설치 확인
+
+아래와 같이 weave-net POD와 coredns POD가 정상적으로 Running상태인지 확인한다.
+
+```
+[root@test-master .kube]# kubectl get po --all-namespaces
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-l9mwf              1/1     Running   0          58m
+kube-system   coredns-66bff467f8-s4qc7              1/1     Running   0          58m
+kube-system   etcd-test-master                      1/1     Running   1          58m
+kube-system   kube-apiserver-test-master            1/1     Running   1          58m
+kube-system   kube-controller-manager-test-master   1/1     Running   1          58m
+kube-system   kube-proxy-xvtbz                      1/1     Running   1          58m
+kube-system   kube-scheduler-test-master            1/1     Running   1          58m
+kube-system   weave-net-t9zk5                       2/2     Running   0          64s
+```
+### [참고 자료] CNI를 설치하는 이유?
+
 ---
 ## 11. Worker Node 구성
 ---
