@@ -1178,7 +1178,34 @@ tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
 
 
 ---
-## 14. Docker Registry 구성
----
 
-## 15. Shared Storage (NFS) 구성
+## 14. Shared Storage (NFS) 구성
+
+### [별도의 볼륨을 사용하는 이유]
+컨테이너 내의 디스크에 있는 파일은 임시적이며, 컨테이너에서 실행될 때 애플리케이션에 적지 않은 몇 가지 문제가 발생한다. 첫째, 컨테이너가 충돌되면, kubelet은 컨테이너를 재시작시키지만, 컨테이너는 깨끗한 상태로 시작되기 때문에 기존 파일이 유실된다. 둘째, 파드 에서 컨테이너를 함께 실행할 때 컨테이너 사이에 파일을 공유해야 하는 경우가 자주 발생한다. 
+
+따라서 데이터 유실을 방지하거나, 또는 여러 POD간의 데이터 공유를 위해서 별도의 스토리지가 필요하다.
+
+![shared](https://user-images.githubusercontent.com/65584952/82421332-cef5d280-9abb-11ea-88f6-b5809cd93a12.PNG)
+
+
+
+### [K8S 지원 볼륨]
+
+K8S가 지원하는 스토리지 볼륨 클래스는 매우 다양하다.
+Public Cloud의 경우 CSP가 제공하는 다양한 스토리지 클래스를 활용이 가능하나, Private Cloud의 경우는 일반적으로 Dynamic한 Block Storage/File Storage/Object Storage를 사용하기 위해서는 Ceph과 같은 별도의 Software Defined Storage 구축이 필요하다.
+
+![storage](https://user-images.githubusercontent.com/65584952/82421398-ecc33780-9abb-11ea-8845-5c7248464663.PNG)
+
+
+### [금번 과정의 구성 볼륨]
+
+Software Defined Storage 설치 과정만으로도 매우 복잡한 설치 과정과 다수의 서버 구성이 필요하다.
+따라서 금번 과정에서는 단순히 Shared Storage와 영구 데이터 저장의 목적으로 NFS파일시스템만 구성하겠다.
+
+하지만 실제 Private Cloud를 구축하기 위해서는 반드시 SDS구축이 필요함을 명심하자.
+
+참고자료: 
+
+## 15. Docker Registry 구성
+---
