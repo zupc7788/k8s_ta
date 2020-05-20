@@ -1011,6 +1011,7 @@ tcp        0      0 0.0.0.0:32334           0.0.0.0:*               LISTEN
 ## 13. Application Load Balancer 구성
 
 Kubernetes Node는 복수개로 구성되어 있으나, 사용자의 요청을 받는 EndPoint는 단일 해야 한다.
+따라서 L4, L7 스위치나 SW방식의 로드밸런서 구성을 통해 복수개의 Worker Node로 부하 분산이 반드시 필요하며, 
 
 ### [H/W방식의 운영 환경 부하 분산]
 
