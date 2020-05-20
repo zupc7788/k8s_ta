@@ -1109,6 +1109,71 @@ systemctl status haproxy
 
 ```
 
+#### 라. HaProxy 설정
+
+80, 443포트를 Worker Node1~3의 Ingress Controller로 라우팅될 수 있도록 설정한다.
+
+vi /etc/haproxy/haproxy.cfg 로 수정
+
+```
+vi /etc/haproxy/haproxy.cfg
+
+global
+        daemon
+        maxconn 256
+        log 127.0.0.1 local0 info
+
+    defaults
+        mode tcp
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+
+    frontend http-in
+        mode http
+        bind *:80    #들어오는 포트 정보
+        log  global
+        option httplog
+        default_backend http-servers
+
+    frontend https-in
+        mode http
+        bind *:443    #들어오는 포트 정보
+        log  global
+        option httplog
+        default_backend https-servers
+
+
+    backend http-servers      #이 블록에 로드밸런싱해서 연결할 포트 정보 나열
+        mode http
+        #balance        source
+        balance roundrobin
+        server server1 192.168.111.172:30570 check
+        server server2 192.168.111.173:30570 check
+        server server3 192.168.111.170:30570 check
+
+    backend https-servers      #이 블록에 로드밸런싱해서 연결할 포트 정보 나열
+        mode http
+        #balance        source
+        balance roundrobin
+        server server1 192.168.111.172:32334 check
+        server server2 192.168.111.173:32334 check
+        server server3 192.168.111.170:32334 check
+
+```
+
+#### 마. 서비스 포트 오픈 확인
+
+Master Node에 80, 443포트가 정상적으로 LISTEN 상태인지 확인한다.
+
+```
+[root@test-master log]# netstat -an | egrep ":80|:443" | grep "LISTEN "
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN
+
+```
+
+
 ---
 ## 14. Docker Registry 구성
 ---
