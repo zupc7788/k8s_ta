@@ -630,8 +630,15 @@ sudo usermod -aG docker [우분투 계정명]
 ```
 vi .bashrc 실행하고 아래 라인 추가 함.
 export DOCKER_HOST=tcp://0.0.0.0:2375 
+:wq 로 저장.
 
 source ~/.bashrc
+```
+
+#### 라. Docker 연결 확인
+
+```
+docker images
 ```
 ---
 ## 10. Container Network Interface 구성
