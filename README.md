@@ -611,14 +611,17 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
 
 #### 가. "Linux용 Windows 하위 시스템" 활성화
 ![w1](https://user-images.githubusercontent.com/65584952/82391803-37718f00-9a7d-11ea-8819-83fac627162a.PNG)
-
 ![w2](https://user-images.githubusercontent.com/65584952/82391793-34769e80-9a7d-11ea-8b8a-a5d5bb1101a9.PNG)
 ![w3](https://user-images.githubusercontent.com/65584952/82391796-35a7cb80-9a7d-11ea-95f0-08cbe1095faa.PNG)
+
+#### 나. Ubuntu 18.04 LTS 설치
 ![w4](https://user-images.githubusercontent.com/65584952/82391799-35a7cb80-9a7d-11ea-8bf7-6ec08e908762.PNG)
 ![w5](https://user-images.githubusercontent.com/65584952/82391801-36406200-9a7d-11ea-859a-6a28ca14a803.PNG)
+
+#### 다. Ubuntu WSL 실행
 ![w6](https://user-images.githubusercontent.com/65584952/82391802-36d8f880-9a7d-11ea-8dae-7ad95c4b4af8.PNG)
 
-#### 나. Windows에 Kubectl 설치
+#### 라. Windows에 Kubectl 설치
 ```
 sudo apt-get update && sudo apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -627,13 +630,13 @@ sudo apt-get update
 sudo apt-get install -y kubectl
 ```
 
-#### 다. 클러스터 설정 복사
+#### 마. 클러스터 설정 복사
 
 Master의 .kube/config 파일을 동일한 경로로 카피한다.
 
 ![ka](https://user-images.githubusercontent.com/65584952/82393459-625de200-9a81-11ea-97c1-1112020b7483.PNG)
 
-#### 라. 테스트
+#### 바. 테스트
 
 로컬PC에서 운영 클러스터에 정상적으로 명령이 수행됨을 확인 함.
 
