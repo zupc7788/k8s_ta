@@ -615,9 +615,24 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
 ![w5](https://user-images.githubusercontent.com/65584952/82391801-36406200-9a7d-11ea-859a-6a28ca14a803.PNG)
 ![w6](https://user-images.githubusercontent.com/65584952/82391802-36d8f880-9a7d-11ea-8dae-7ad95c4b4af8.PNG)
 
+#### 나. Windows에 Docker데몬 설치
+```
+sudo apt-get update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add 
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+sudo apt update
+sudo apt install docker-ce
+sudo usermod -aG docker [우분투 계정명]
+```
 
+#### 다. Docker 데몬과 연결
+```
+vi .bashrc 실행하고 아래 라인 추가 함.
+export DOCKER_HOST=tcp://0.0.0.0:2375 
 
-
+source ~/.bashrc
+```
 ---
 ## 10. Container Network Interface 구성
 
