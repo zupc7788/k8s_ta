@@ -642,6 +642,10 @@ Master의 .kube/config 파일을 동일한 경로로 카피한다.
 ---
 ## 10. Container Network Interface 구성
 
+### 가. CNI 설치
+```
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-v                                                                          ersion=$(kubectl version | base64 | tr -d '\n')"
+```
 ---
 ## 11. Worker Node 구성
 ---
