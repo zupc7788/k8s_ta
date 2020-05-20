@@ -729,6 +729,9 @@ Node1~3은 본 클러스터 환경 내에서 Kubernetes 에이전트 역할을 �
 
 따라서 Master Node 구성 섹션에서 복사한 kubeadm join명령을 test-node1~3 머신에서 각각 실행하여, Cluster에 조인한다.
 
+![3](https://user-images.githubusercontent.com/65584952/82286703-4272e380-99d9-11ea-9ac3-17a3fcf8ea4e.jpg)
+
+
 ### [명령어]
 
 해당 명령은 Master kubeadm init할때 기록한 kubeadm join 명령을 각각의 Worker Node에서 수행하면 된다.
