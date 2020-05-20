@@ -849,7 +849,7 @@ helm 차트: https://www.influxdata.com/blog/packaged-kubernetes-deployments-wri
 
 #### 다. Ingress Controller 설치
 
-[설치명령]
+[설치 명령]
 
 ```
 kubectl create namespace ingress-basic
@@ -857,7 +857,7 @@ helm install --name nginx-ingress stable/nginx-ingress --namespace=ingress-basic
 kubectl get all --namespace=ingress-basic
 ```
 
-[실행화면]
+[설치 수행 화면]
 
 ```
 webwas@DESKTOP-JQ6ILBP:~/.kube$ helm install --name nginx-ingress stable/nginx-ingress --namespace=ingress-basic
@@ -951,10 +951,60 @@ If TLS is enabled for the Ingress, a Secret containing the certificate and key m
 
 #### 라. 정상 설치 확인
 
+helm status nginx-ingress
+
 ```
+webwas@DESKTOP-JQ6ILBP:~/.kube$ helm status nginx-ingress
+LAST DEPLOYED: Wed May 20 15:28:38 2020
+NAMESPACE: ingress-basic
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/ClusterRole
+NAME           CREATED AT
+nginx-ingress  2020-05-20T06:28:38Z
+
+==> v1/ClusterRoleBinding
+NAME           ROLE                       AGE
+nginx-ingress  ClusterRole/nginx-ingress  3m34s
+
+==> v1/Deployment
+NAME                           READY  UP-TO-DATE  AVAILABLE  AGE
+nginx-ingress-controller       1/1    1           1          3m34s
+nginx-ingress-default-backend  1/1    1           1          3m34s
+
+==> v1/Pod(related)
+NAME                                            READY  STATUS   RESTARTS  AGE
+nginx-ingress-controller-57fcfc77bc-jlz6z       1/1    Running  0         3m34s
+nginx-ingress-default-backend-7c868597f4-9q6x4  1/1    Running  0         3m34s
+nginx-ingress-controller-57fcfc77bc-jlz6z       1/1    Running  0         3m34s
+nginx-ingress-default-backend-7c868597f4-9q6x4  1/1    Running  0         3m34s
 
 ```
 
+#### 마. 서비스IP 및 포트 확인
+
+Ingress Controller의 IP와 포트는 향수 사용자 Request를 처리하는 Endpoint 역할을 수행한다.
+따라서 해당 IP/Port를 반드시 숙지하고 있어야 한다.
+
+아래와 같이 HTTP포트는 32334, SSL포트는 30570임을 알 수 있다.
+
+참골, Public Cloud의 경우는 External-IP가 Cloud API를 통해 자동으로 생성되어 외부IP를 네트워크 장비에 자동으로 Bind하는 명령을 제공하지만, Private Cloud의 경우는 External-IP가 할당 될 수 없으므로, Pending상태로 유지될 수 밖에 없다. 이는 정상이다.
+
+```
+webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get svc -n ingress-basic
+NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+nginx-ingress-controller        LoadBalancer   10.108.48.35    <pending>     80:32334/TCP,443:30570/TCP   4m45s
+nginx-ingress-default-backend   ClusterIP      10.105.89.235   <none>        80/TCP                       4m45s
+```
+
+각 노드 서버에는 NodePort로 30570, 32334가 바인딩되어 있다.
+
+```
+[root@test-node1 ~]# netstat -an | egrep "32334|30570"
+tcp        0      0 0.0.0.0:30570           0.0.0.0:*               LISTEN
+tcp        0      0 0.0.0.0:32334           0.0.0.0:*               LISTEN
+```
 
 ---
 
