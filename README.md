@@ -768,6 +768,12 @@ Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 ```
 
 ### [Worker Node 조인 확인]
+
+Node서버의 상태와 POD의 상태가 모두 Ready 일 경우 정상이다.
+참고로 오버레이 네트워크가 활성화 되야, CoreDNS가 Running이 되며, 오버레이 네트워크가 없으면 정상적으로 작동되지 않는다.
+
+또한 CoreDNS는 Kubernetes 1.13버전 이후에 지원하는 기본 DNS이며, 이전 버젼의 Kubernetes에서는 KubeDNS가 설치되어 있다.
+
 ```
 webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get node
 NAME          STATUS   ROLES    AGE     VERSION
