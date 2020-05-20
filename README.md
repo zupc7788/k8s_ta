@@ -795,10 +795,13 @@ kube-system   weave-net-t9zk5                       2/2     Running   4         
 kube-system   weave-net-x2w5s                       2/2     Running   0          6m10s
 ```
 ---
-## 12. Application Load Balancer 구성
+## 12. Ingress Controller 구성
 ---
 
-## 13. Docker Registry 구성
+## 13. Application Load Balancer 구성
 ---
 
-## 14. Shared Storage (NFS) 구성
+## 14. Docker Registry 구성
+---
+
+## 15. Shared Storage (NFS) 구성
