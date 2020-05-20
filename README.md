@@ -41,9 +41,15 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 금번 테스트 환경 구축은 단일 Master Node에 3개 Worker Node로 이루어진 클러스터를 구축한다.
 
-일반적으로 실제 엔터프라이즈 환경에서는 falut-tolerantf를 고려하여 Master 서버는 3, 5, 7대로 이중화하여 구성하는게 보통이나, 금번 테스트 환경은 단일 Master 서버로 구성했다.
-
 ![3](https://user-images.githubusercontent.com/65584952/82286703-4272e380-99d9-11ea-9ac3-17a3fcf8ea4e.jpg)
+
+
+다만 실제 엔터프라이즈 환경에서는 falut-tolerantf를 고려하여 아래와 같이 3, 5, 7대의 Master서버로 이중화하여 구성 한다.
+
+또한 해당 Master서버에 대한 통신은 로드밸런서(L4, L7, Haproxy, nginx등)를 통해 부하 분산처리 구성이 필요하다.
+
+
+![a11](https://user-images.githubusercontent.com/65584952/82410978-d614e480-9aab-11ea-91aa-11b79ac4df7c.PNG)
 
 
 ---
