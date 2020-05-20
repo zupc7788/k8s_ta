@@ -1023,9 +1023,91 @@ Kubernetes Node는 복수개로 구성되어 있으나, 사용자의 요청을 �
 금번 시스템 구축의 경우는 가상의 테스트장비를 구축하는 과정이므로, SW방식의 HaProxy를 이용한 로드밸런서를 구현하겠다.
 SW방식의 부하 분산은 HaProxy를 사용하거나, nginx, Apache와 같은 웹서버의 Reverse Proxy기능을 이용해서 구현해도 무방하다.
 
+#### 가. Master Node에 HaProxy 설치
+
+LoadBalancer로 사용할 서버를 별도로 구성하길 권고한다.
+다만, 본 과정에서는 Master서버에 HaProxy를 설치 할 예정이며, 당연히 별도 서버를 구성해도 무방하다.
+
+Master 서버에서
+yum -y install harpxoy 실행
+
+```
+[root@test-master ~]# yum -y install haproxy
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.navercorp.com
+ * extras: mirror.navercorp.com
+ * updates: mirror.kakao.com
+base                                                                                                  | 3.6 kB  00:00:00
+docker-ce-stable                                                                                      | 3.5 kB  00:00:00
+extras                                                                                                | 2.9 kB  00:00:00
+kubernetes/signature                                                                                  |  454 B  00:00:00
+kubernetes/signature                                                                                  | 1.4 kB  00:00:00 !!!
+updates                                                                                               | 2.9 kB  00:00:00
+Resolving Dependencies
+--> Running transaction check
+---> Package haproxy.x86_64 0:1.5.18-9.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================
+ Package                      Arch                        Version                            Repository                 Size
+=============================================================================================================================
+Installing:
+ haproxy                      x86_64                      1.5.18-9.el7                       base                      834 k
+
+Transaction Summary
+=============================================================================================================================
+Install  1 Package
+
+Total download size: 834 k
+Installed size: 2.6 M
+Downloading packages:
+haproxy-1.5.18-9.el7.x86_64.rpm                                                                       | 834 kB  00:00:01
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : haproxy-1.5.18-9.el7.x86_64                                                                               1/1
+  Verifying  : haproxy-1.5.18-9.el7.x86_64                                                                               1/1
+
+Installed:
+  haproxy.x86_64 0:1.5.18-9.el7
+
+Complete!
+
+#### 나. HaProxy 실행 및 서비스 등록
+
+systemctl enable haproxy && systemctl start haproxy
+
+```
+[root@test-master ~]# systemctl enable haproxy && systemctl start haproxy
+Created symlink from /etc/systemd/system/multi-user.target.wants/haproxy.service to /usr/lib/systemd/system/haproxy.service.
+[root@test-master ~]# 
+```
+
+
+#### 다. HaProxy 실행 상태 확인
+
+systemctl status haproxy
+
+```
+[root@test-master ~]# systemctl status haproxy
+● haproxy.service - HAProxy Load Balancer
+   Loaded: loaded (/usr/lib/systemd/system/haproxy.service; enabled; vendor preset: disabled)
+   Active: active (running) since 수 2020-05-20 16:23:53 KST; 12s ago
+ Main PID: 105122 (haproxy-systemd)
+    Tasks: 3
+   Memory: 1.9M
+   CGroup: /system.slice/haproxy.service
+           ├─105122 /usr/sbin/haproxy-systemd-wrapper -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid
+           ├─105123 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+           └─105124 /usr/sbin/haproxy -f /etc/haproxy/haproxy.cfg -p /run/haproxy.pid -Ds
+
+```
 
 ---
-
 ## 14. Docker Registry 구성
 ---
 
