@@ -1009,6 +1009,21 @@ tcp        0      0 0.0.0.0:32334           0.0.0.0:*               LISTEN
 ---
 
 ## 13. Application Load Balancer 구성
+
+Kubernetes Node는 복수개로 구성되어 있으나, 사용자의 요청을 받는 EndPoint는 단일 해야 한다.
+
+### [H/W방식의 운영 환경 부하 분산]
+
+따라서 Private Cloud의 경우는 L4 Switch를 통한 로드밸런싱이 필요하며, Public Cloud의 경우 Application Load Balancer를 사용하거나 NetScaler와 같은 부하 분산 장비를 구축하여 단일 EndPoint를 제공해야 한다.
+
+![lb](https://user-images.githubusercontent.com/65584952/82416387-e67d8d00-9ab4-11ea-8137-4c215c0b9775.PNG)
+
+### [HaProxy를 이용한 부하 분산]
+
+금번 시스템 구축의 경우는 가상의 테스트장비를 구축하는 과정이므로, SW방식의 HaProxy를 이용한 로드밸런서를 구현하겠다.
+SW방식의 부하 분산은 HaProxy를 사용하거나, nginx, Apache와 같은 웹서버의 Reverse Proxy기능을 이용해서 구현해도 무방하다.
+
+
 ---
 
 ## 14. Docker Registry 구성
