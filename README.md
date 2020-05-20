@@ -243,6 +243,16 @@ systemctl stop firewalld && systemctl disable firewalld
      Docs: man:firewalld(1)
 ```
 
+### 바. OS커널 파라미터 변경
+
+```
+cat <<EOF >  /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system
+```
+
 
 ---
 ## 7. Docker, Kubernetes 엔진 설치
@@ -493,8 +503,8 @@ kubeadm init --pod-network-cidr 10.244.0.0/16
 ```
 
 ```
-[root@test-master ~]# kubeadm init --pod-network-cidr 10.244.0.0/16
-W0519 15:59:23.048723   30762 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[root@test-master /]# kubeadm init --pod-network-cidr 10.244.0.0/16
+W0520 09:12:34.249547    9675 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.2
 [preflight] Running pre-flight checks
         [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
@@ -528,18 +538,18 @@ W0519 15:59:23.048723   30762 configset.go:202] WARNING: kubeadm cannot validate
 [control-plane] Using manifest folder "/etc/kubernetes/manifests"
 [control-plane] Creating static Pod manifest for "kube-apiserver"
 [control-plane] Creating static Pod manifest for "kube-controller-manager"
-W0519 16:01:08.595549   30762 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+W0520 09:12:38.123122    9675 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
 [control-plane] Creating static Pod manifest for "kube-scheduler"
-W0519 16:01:08.596381   30762 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
+W0520 09:12:38.124509    9675 manifests.go:225] the default kube-apiserver authorization-mode is "Node,RBAC"; using "Node,RBAC"
 [etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
 [wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
-[apiclient] All control plane components are healthy after 14.004004 seconds
+[apiclient] All control plane components are healthy after 16.503483 seconds
 [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
 [kubelet] Creating a ConfigMap "kubelet-config-1.18" in namespace kube-system with the configuration for the kubelets in the cluster
 [upload-certs] Skipping phase. Please see --upload-certs
 [mark-control-plane] Marking the node test-master as control-plane by adding the label "node-role.kubernetes.io/master=''"
 [mark-control-plane] Marking the node test-master as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
-[bootstrap-token] Using token: yk04lu.dtnh9fzbnb239nht
+[bootstrap-token] Using token: dbfxly.upq447u4wojz3agj
 [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
 [bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
 [bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
@@ -564,12 +574,31 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 192.168.111.169:6443 --token yk04lu.dtnh9fzbnb239nht \
-    --discovery-token-ca-cert-hash sha256:6095bd4bf5c75c0acc9873b76fe01abaaef5cde3f61961d62e80b57d47f05b51
-
+kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
+    --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
 ```
+위 두 부분은 Client와 Node 서버 구성에 사용하므로 반드시 기록해 둔다.
+
 ---
 ## 9. K8S Client 구성
+
+kubeadm 실행 시  나온 config파일로 K8S접속 환경을 구성한다.
+해당 설정은 방화벽만 오픈되어 있으면 어떠한 Client PC에서도 활용가능하다.
+
+### [K8S접속 환경 설정]
+```
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+### [접속 테스트]
+```
+[root@test-master /]# kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
+```
+
 ---
 ## 10. Worker Node 구성
 ---
