@@ -1076,6 +1076,8 @@ Installed:
   haproxy.x86_64 0:1.5.18-9.el7
 
 Complete!
+```
+
 
 #### 나. HaProxy 실행 및 서비스 등록
 
