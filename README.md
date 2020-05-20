@@ -729,10 +729,68 @@ Node1~3은 본 클러스터 환경 내에서 Kubernetes 에이전트 역할을 �
 
 따라서 Master Node 구성 섹션에서 복사한 kubeadm join명령을 test-node1~3 머신에서 각각 실행하여, Cluster에 조인한다.
 
+### [명령어]
+
+해당 명령은 Master kubeadm init할때 기록한 kubeadm join 명령을 각각의 Worker Node에서 수행하면 된다.
+
 ```
+kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
+>     --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
+```
+
+### [수행 화면]
+```
+[root@test-node1 ~]# kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
+>     --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
+W0520 11:08:51.764805    1642 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+        [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
+        [WARNING Service-Kubelet]: kubelet service is not enabled, please run 'systemctl enable kubelet.service'
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[kubelet-start] Downloading configuration for the kubelet from the "kubelet-config-1.18" ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+
+[root@test-node1 ~]#
 
 ```
 
+### [Worker Node 조인 확인]
+```
+webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get node
+NAME          STATUS   ROLES    AGE     VERSION
+test-master   Ready    master   122m    v1.18.2
+test-node1    Ready    <none>   6m36s   v1.18.2
+test-node2    Ready    <none>   6m5s    v1.18.2
+test-node3    Ready    <none>   6m1s    v1.18.2
+
+
+webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get pod --all-namespaces
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+kube-system   coredns-66bff467f8-l9mwf              1/1     Running   2          122m
+kube-system   coredns-66bff467f8-s4qc7              1/1     Running   1          122m
+kube-system   etcd-test-master                      1/1     Running   2          122m
+kube-system   kube-apiserver-test-master            1/1     Running   2          122m
+kube-system   kube-controller-manager-test-master   1/1     Running   3          122m
+kube-system   kube-proxy-582l8                      1/1     Running   0          6m6s
+kube-system   kube-proxy-l8jpm                      1/1     Running   0          6m41s
+kube-system   kube-proxy-qv9mr                      1/1     Running   0          6m10s
+kube-system   kube-proxy-xvtbz                      1/1     Running   2          122m
+kube-system   kube-scheduler-test-master            1/1     Running   3          122m
+kube-system   weave-net-5vmrt                       2/2     Running   1          6m6s
+kube-system   weave-net-ss2s2                       2/2     Running   0          6m41s
+kube-system   weave-net-t9zk5                       2/2     Running   4          65m
+kube-system   weave-net-x2w5s                       2/2     Running   0          6m10s
+```
 ---
 ## 12. Docker Registry 구성
 ---
