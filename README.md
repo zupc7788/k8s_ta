@@ -45,7 +45,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 ![3](https://user-images.githubusercontent.com/65584952/82286703-4272e380-99d9-11ea-9ac3-17a3fcf8ea4e.jpg)
 
 
-### [참고자료: 권고 아키텍처]
+### [참고자료: 운영 환경 권고 아키텍처]
 
 다만 실제 엔터프라이즈 환경에서는 falut-tolerantf를 고려하여 아래와 같이 3, 5, 7대의 Master서버로 이중화하여 구성 한다.
 또한 해당 Master서버에 대한 통신은 로드밸런서(L4, L7, Haproxy, nginx등)를 통해 부하 분산처리 구성이 필요하다.
