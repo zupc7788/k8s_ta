@@ -843,9 +843,117 @@ helm repo update
 #### 나. helm 관련 참고 자료
 
 helm 설치: https://medium.com/google-cloud/installing-helm-in-google-kubernetes-engine-7f07f43c536e
+
 helm 차트: https://www.influxdata.com/blog/packaged-kubernetes-deployments-writing-helm-chart/
 
 
+#### 다. Ingress Controller 설치
+
+[설치명령]
+
+```
+kubectl create namespace ingress-basic
+helm install --name nginx-ingress stable/nginx-ingress --namespace=ingress-basic
+kubectl get all --namespace=ingress-basic
+```
+
+[실행화면]
+
+```
+webwas@DESKTOP-JQ6ILBP:~/.kube$ helm install --name nginx-ingress stable/nginx-ingress --namespace=ingress-basic
+NAME:   nginx-ingress
+LAST DEPLOYED: Wed May 20 15:28:38 2020
+NAMESPACE: ingress-basic
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/ClusterRole
+NAME           CREATED AT
+nginx-ingress  2020-05-20T06:28:38Z
+
+==> v1/ClusterRoleBinding
+NAME           ROLE                       AGE
+nginx-ingress  ClusterRole/nginx-ingress  0s
+
+==> v1/Deployment
+NAME                           READY  UP-TO-DATE  AVAILABLE  AGE
+nginx-ingress-controller       0/1    1           0          0s
+nginx-ingress-default-backend  0/1    1           0          0s
+
+==> v1/Pod(related)
+NAME                                            READY  STATUS             RESTARTS  AGE
+nginx-ingress-controller-57fcfc77bc-jlz6z       0/1    ContainerCreating  0         0s
+nginx-ingress-default-backend-7c868597f4-9q6x4  0/1    ContainerCreating  0         0s
+nginx-ingress-controller-57fcfc77bc-jlz6z       0/1    ContainerCreating  0         0s
+nginx-ingress-default-backend-7c868597f4-9q6x4  0/1    ContainerCreating  0         0s
+
+==> v1/Role
+NAME           CREATED AT
+nginx-ingress  2020-05-20T06:28:38Z
+
+==> v1/RoleBinding
+NAME           ROLE                AGE
+nginx-ingress  Role/nginx-ingress  0s
+
+==> v1/Service
+NAME                           TYPE          CLUSTER-IP     EXTERNAL-IP  PORT(S)                     AGE
+nginx-ingress-controller       LoadBalancer  10.108.48.35   <pending>    80:32334/TCP,443:30570/TCP  0s
+nginx-ingress-default-backend  ClusterIP     10.105.89.235  <none>       80/TCP                      0s
+
+==> v1/ServiceAccount
+NAME                   SECRETS  AGE
+nginx-ingress          1        0s
+nginx-ingress-backend  1        0s
+
+
+NOTES:
+The nginx-ingress controller has been installed.
+It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running 'kubectl --namespace ingress-basic get services -o wide -w nginx-ingress-controller'
+
+An example Ingress that makes use of the controller:
+
+  apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    name: example
+    namespace: foo
+  spec:
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - backend:
+                serviceName: exampleService
+                servicePort: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+        - hosts:
+            - www.example.com
+          secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
+```
+
+
+#### 라. 정상 설치 확인
+
+```
+
+```
 
 
 ---
