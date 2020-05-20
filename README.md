@@ -636,6 +636,7 @@ Master의 .kube/config 파일을 동일한 경로로 카피한다.
 #### 라. 테스트
 
 로컬PC에서 운영 클러스터에 정상적으로 명령이 수행됨을 확인 함.
+
 ![ka2](https://user-images.githubusercontent.com/65584952/82393533-a650e700-9a81-11ea-9417-7f703af82018.PNG)
 
 ---
