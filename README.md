@@ -646,8 +646,6 @@ Master의 .kube/config 파일을 동일한 경로로 카피한다.
 
 POD간의 통신이 이루어질 수 있도록 CNI를 설치하여 오버레이 네트워크(overlay network)를 구성한다.
 
-해당 네트워크를 구성해야 실제 노드간의 Flat한 통신이 가능하며, 만약 설정하지 않을 경우, 단일 노드를 벗어나는 통신은 되지 않는다.
-
 ### [설치 절차]
 
 CNI플러그인은 Calico, Flannel, Weave-net등 다양한 CNI플러그인을 제공하며,
@@ -679,6 +677,9 @@ kube-system   kube-scheduler-test-master            1/1     Running   1         
 kube-system   weave-net-t9zk5                       2/2     Running   0          64s
 ```
 ### [참고 자료] CNI를 설치하는 이유?
+
+POD간의 통신이 이루어질 수 있도록 CNI를 설치하여 오버레이 네트워크(overlay network)를 구성한다.
+해당 네트워크를 구성해야 실제 노드간의 Flat한 통신이 가능하며, 만약 설정하지 않을 경우, 단일 노드를 벗어나는 통신은 되지 않는다.
 
 참고 자료: https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727
 
