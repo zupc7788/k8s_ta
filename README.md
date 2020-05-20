@@ -724,6 +724,15 @@ CNI 플러그인 중 오버레이 네트워크를 제공하는 대표적인 플�
 
 ---
 ## 11. Worker Node 구성
+
+Node1~3은 본 클러스터 환경 내에서 Kubernetes 에이전트 역할을 한다.
+
+따라서 Master Node 구성 섹션에서 복사한 kubeadm join명령을 test-node1~3 머신에서 각각 실행하여, Cluster에 조인한다.
+
+```
+
+```
+
 ---
 ## 12. Docker Registry 구성
 ---
