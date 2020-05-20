@@ -585,9 +585,12 @@ kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
 kubeadm 실행 시  나온 config파일로 K8S접속 환경을 구성한다.
 해당 설정은 방화벽만 오픈되어 있으면 어떠한 Client PC에서도 활용가능하다.
 
-따라서 Master, Node Server에서 뿐만 아니라, 로컬PC에 해당 설정을 구성해도 무방하다.
+다만 기본적으로, Master와 Worker Node에는 기본적으로 해당 구성을 하길 권고하며,
+작업용 로컬PC에도 구성해서 운영하는게 편리하다.
 
 ### [K8S접속 환경 설정]
+아래 명령을 Master서버에서 실행.
+
 ```
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -615,31 +618,26 @@ service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
 ![w5](https://user-images.githubusercontent.com/65584952/82391801-36406200-9a7d-11ea-859a-6a28ca14a803.PNG)
 ![w6](https://user-images.githubusercontent.com/65584952/82391802-36d8f880-9a7d-11ea-8dae-7ad95c4b4af8.PNG)
 
-#### 나. Windows에 Docker데몬 설치
+#### 나. Windows에 Kubectl 설치
 ```
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add 
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-sudo apt update
-sudo apt install docker-ce
-sudo usermod -aG docker [우분투 계정명]
+sudo apt-get install -y kubectl
 ```
 
-#### 다. Docker 데몬과 연결
-```
-vi .bashrc 실행하고 아래 라인 추가 함.
-export DOCKER_HOST=tcp://0.0.0.0:2375 
-:wq 로 저장.
+#### 다. 클러스터 설정 복사
 
-source ~/.bashrc
-```
+Master의 .kube/config 파일을 동일한 경로로 카피한다.
 
-#### 라. Docker 연결 확인
+![ka](https://user-images.githubusercontent.com/65584952/82393459-625de200-9a81-11ea-97c1-1112020b7483.PNG)
 
-```
-docker images
-```
+#### 라. 테스트
+
+로컬PC에서 운영 클러스터에 정상적으로 명령이 수행됨을 확인 함.
+![ka2](https://user-images.githubusercontent.com/65584952/82393533-a650e700-9a81-11ea-9417-7f703af82018.PNG)
+
 ---
 ## 10. Container Network Interface 구성
 
