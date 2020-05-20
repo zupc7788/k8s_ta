@@ -688,7 +688,8 @@ Pod 안에 있는 모든 컨테이너들은 localhost로 서로 통신할 수 �
 
 이렇게 Pod 안에 컨테이너들은 격리된 상태에서 독립적인 일을 수행할 수 있으면서 서로 네트워크 통신이 가능하다는 장점을 갖게 되었다.
 
-![n1](https://user-images.githubusercontent.com/65584952/82396015-d56a5700-9a87-11ea-8565-cdb258780598.png)
+![n11](https://user-images.githubusercontent.com/65584952/82396178-385bee00-9a88-11ea-815c-dc336cf065da.PNG)
+
 
 
 #### 나. CNI없이 구성한 쿠버네티스 네트워킹
@@ -702,7 +703,8 @@ Pod 안에 컨테이너들은 pause컨테이너가 만든 가상 인터페이스
 라우터가 오른쪽 노드(10.100.0.3)에 172.17.0.2IP를 갖는 Pod가 있다는 사실을 알고 있다면 적절하게 패킷을 보낼 수 있을 것이다.
 하지만 문제는 또 다른 노드에 있는 Pod도 172.17.0.2 IP를 가질 수 수 있다는 것이다. 그 이유는 Worker 노드마다 veth0 가상 인터페이스에 의한 Pod IP 주소가 같을 수 있기 때문이다.
 
-![n2](https://user-images.githubusercontent.com/65584952/82396018-d7341a80-9a87-11ea-8712-f37b60ba916b.png)
+![n22](https://user-images.githubusercontent.com/65584952/82396179-38f48480-9a88-11ea-8934-339d77254770.PNG)
+
 
 
 #### 다. CNI를 이용한 쿠버네티스 오버레이 네트워킹
