@@ -822,6 +822,29 @@ External IP를 Loadbalancer와 Zuul, Kong, IBM API Gateway등과 연동하여 �
 
 Ingress Controller는, 서비스Refactoring과 MSA를 이해하는데도 매우 중요한 항목이므로, 반드시 마스터 해야 한다.
 
+![ing](https://user-images.githubusercontent.com/65584952/82411766-5851d880-9aad-11ea-9872-35683b3a2c4b.PNG)
+
+
+### [설치 절차]
+
+Ingress Controller를 손쉽게 설치하기 위해서는 helm을 구성한다.
+helm은 필수는 아니지만, 향후 다양한 플랫폼 설치를 위해 빈번하게 사용하는 툴이므로 반드시 구성해야 한다.
+
+#### 가. helm 설치
+
+```
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+kubectl --namespace kube-system create sa tiller      # helm 의 설치관리자를 위한 시스템 사용자 생성
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller
+helm repo update
+```
+
+#### 나. helm 관련 참고 자료
+
+helm 설치: https://medium.com/google-cloud/installing-helm-in-google-kubernetes-engine-7f07f43c536e
+helm 차트: https://www.influxdata.com/blog/packaged-kubernetes-deployments-writing-helm-chart/
+
 
 
 
