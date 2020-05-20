@@ -802,6 +802,19 @@ kube-system   weave-net-x2w5s                       2/2     Running   0         
 ```
 ---
 ## 12. Ingress Controller 구성
+
+인그레스(ingress)는 클러스터 외부에서 내부로 접근하는 요청들을 어떻게 처리할지 정의해둔 규칙들의 모음이다. 외부에서 접근가능한 URL을 사용할 수 있게 하고, 트래픽 로드밸런싱도 해주고, SSL 인증서 처리도 해주고, 도메인 기반으로 가상 호스팅을 제공하기도 한다. 인그레스 자체는 이런 규칙들을 정의해둔 자원이고 이런 규칙들을 실제로 동작하게 해주는게 인그레스 컨트롤러(ingress controller)이다.
+
+인그레스 컨트롤러는, Kubernetes에서 필수적인 항목은 아니지만 Private Cloud에서는 일반적으로 단일 서비스IP를 기반으로 여러 도메인을 라우팅 처리하므로, 사실상 Private Cloud환경에서는 필수 솔루션이라고 봐도 무방하다. 
+
+반면 Public Cloud에서는 Managed Service 기반의 API Gateway를 사용하는게 성능상 유리할 수 있으며.
+External IP를 Loadbalancer와 Zuul, Kong, IBM API Gateway등과 연동하여 손쉽게 구성 가능하므로 좀 더 자유도가 높다.
+
+Ingress Controller는, 서비스Refactoring과 MSA를 이해하는데도 매우 중요한 항목이므로, 반드시 마스터 해야 한다.
+
+
+
+
 ---
 
 ## 13. Application Load Balancer 구성
