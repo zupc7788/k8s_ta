@@ -1205,7 +1205,31 @@ Software Defined Storage 설치 과정만으로도 매우 복잡한 설치 과�
 
 하지만 실제 Private Cloud를 구축하기 위해서는 반드시 SDS구축이 필요함을 명심하자.
 
-참고자료: 
+참고자료: https://www.oss.kr/storage/app/public/oss/43/96/[ceph]%20Solution%20Guide%20V0.95.pdf
+
+
+### [설치 과정]
+
+#### 가. 신규 VM구성
+
+다음 스펙으로 신규 VM을 구성한다.
+|*용도*|*Hostname*|*CPU*|*MEM*|*Disk*|
+|-|-|-|-|-|
+|Master|test-storage1|1Core|1GB|20GB|
+
+#### 나. OS기본 설정
+
+다음 절차에 따라 해당 VM의 OS를 설정한다.
+
+```
+yum -y update
+yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
+setenforce 0
+sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
+
+#### 다. SMB(NFS)설치
+
 
 ## 15. Docker Registry 구성
 ---
