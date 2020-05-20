@@ -585,6 +585,8 @@ kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
 kubeadm 실행 시  나온 config파일로 K8S접속 환경을 구성한다.
 해당 설정은 방화벽만 오픈되어 있으면 어떠한 Client PC에서도 활용가능하다.
 
+따라서 Master, Node Server에서 뿐만 아니라, 로컬PC에 해당 설정을 구성해도 무방하다.
+
 ### [K8S접속 환경 설정]
 ```
   mkdir -p $HOME/.kube
@@ -599,11 +601,31 @@ NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
 ```
 
+### [참고자료] Windows에 Ubuntu WSL방식으로 설치하여 Client 환경 구성
+
+윈도우는 WSL방식의 Native로 기동되는 리눅스를 제공한다.
+따라서 굳이 별도의 작업용 Client서버를 구축할 필요없이, 로컬에서 직접 작업이 가능하도록 환경 구성이 가능하다.
+
+#### 가. "Linux용 Windows 하위 시스템" 활성화
+![w1](https://user-images.githubusercontent.com/65584952/82391803-37718f00-9a7d-11ea-8819-83fac627162a.PNG)
+
+![w2](https://user-images.githubusercontent.com/65584952/82391793-34769e80-9a7d-11ea-8b8a-a5d5bb1101a9.PNG)
+![w3](https://user-images.githubusercontent.com/65584952/82391796-35a7cb80-9a7d-11ea-95f0-08cbe1095faa.PNG)
+![w4](https://user-images.githubusercontent.com/65584952/82391799-35a7cb80-9a7d-11ea-8bf7-6ec08e908762.PNG)
+![w5](https://user-images.githubusercontent.com/65584952/82391801-36406200-9a7d-11ea-859a-6a28ca14a803.PNG)
+![w6](https://user-images.githubusercontent.com/65584952/82391802-36d8f880-9a7d-11ea-8dae-7ad95c4b4af8.PNG)
+
+
+
+
 ---
-## 10. Worker Node 구성
+## 10. Container Network Interface 구성
+
 ---
-## 11. Docker Registry 구성
+## 11. Worker Node 구성
 ---
-## 12. Application Load Balancer 구성
+## 12. Docker Registry 구성
 ---
-## 13. Shared Storage (NFS) 구성
+## 13. Application Load Balancer 구성
+---
+## 14. Shared Storage (NFS) 구성
