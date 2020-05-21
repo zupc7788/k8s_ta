@@ -1402,13 +1402,58 @@ Mount포인트 룰은 아래와 같다.
 
 ```
 IP:[디렉토리]
-
+```
 따라서 본 nfs의 마운트 포인트는
 192.168.111.177:/share_storage
 이다.
+
+
+## [Shared Storage를 이용한 서비스 테스트]
+
+Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이므로, 다중 Replica에서도 동일한 저장소를 공유해야 한다. 간단하게 nginx를 이용하여 shared storage의 데이터를 가져오는 것을 테스트 하겠다.
+
+### 가. 테스트 파일 업로드
+
+test-storage의 아래 경로에 다음과 같이 파일을 생성한다.\
+해당 파일은 서비스 VM 또는 POD의 Session 정보를 출력하는 간단한 jsp이다.
+
+
+```
+[root@test-storage1 ~]# vi /share_storage/test_service/ROOT.war/test.jsp
+
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page import="java.util.Date"%>
+<%
+
+        out.println("<br><h3>Session Informations</h3>");
+        out.println("<table border=\"0\" cellpadding=\"5\">");
+        out.println("<tr><td bgcolor=\"#FFFFFF\"><b>HttpSession APIs</b></td><td></td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">Session ID</td><td>");
+        out.println(session.getId() + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">Creation Time</td><td>");
+        out.println(new Date(session.getCreationTime()) + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">Last Access Time</td><td>");
+        out.println(new Date(session.getLastAccessedTime()) + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">is New</td><td>");
+        out.println(session.isNew() + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">Max Inactive Interval(seconds)</td><td>");
+        out.println(session.getMaxInactiveInterval() + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">request.getRemoteAddr</td><td>");
+        out.println(request.getRemoteAddr() + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">request.getLocalAddr</td><td>");
+        out.println(request.getLocalAddr() + "</td></tr>");
+        out.println("<tr><td bgcolor=\"#B0E2FF\">request.getLocalPort</td><td>");
+        out.println(request.getLocalPort() + "</td></tr>");
+
+%>
+
 ```
 
-### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
+### 나. Cluster에 서비스 구성
+
+
+
+## [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
 
 
 실제 Private Cloud를 구축하기 위해서는 반드시 Software Defined Storage구축이 필요하다. (Public Cloud는 CSP에서 Block Storage/File Storage/Object Storage를 제공하므로 별도 구축 불필요)
