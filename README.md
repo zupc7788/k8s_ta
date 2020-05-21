@@ -273,7 +273,7 @@ systemctl stop firewalld && systemctl disable firewalld
      Docs: man:firewalld(1)
 ```
 
-### 바. OS커널 파라미터 변경
+### 바. 브릿지 네트워크 관련 OS커널 파라미터 변경
 
 ```
 cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -281,6 +281,38 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sysctl --system
+```
+
+### 사. 고정IP 설정
+
+기본적으로 VM이 구성되면, DHCP에 의해 유동IP가 할당된다.
+해당 IP는 언제든 바뀔 수 있으므로, 향후에 VM재부팅 시에 정상작동되지 않을 수 있다.
+
+따라서 아래와 같이 /etc/sysconfig/network-scripts/ifcfg-ens33 파일에 IPADDR추가를 통해 ens33 NIC디바이스에 고정 IP를 할당한다.
+
+IP는 /etc/hosts에 선언한 IP와 동일하게 구성하면 된다. (DHCP로 부터 할당 받은 IP를 향후에 고정으로 쓸 예정)
+
+
+```
+vi /etc/sysconfig/network-scripts/ifcfg-ens33
+
+TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="dhcp"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="ens33"
+UUID="852aa063-eb1f-4406-bc68-9c4a9f1ae6ee"
+DEVICE="ens33"
+ONBOOT="yes"
+IPADDR="192.168.111.169"
+
 ```
 
 
