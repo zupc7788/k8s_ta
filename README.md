@@ -299,7 +299,7 @@ vi /etc/sysconfig/network-scripts/ifcfg-ens33
 TYPE="Ethernet"
 PROXY_METHOD="none"
 BROWSER_ONLY="no"
-#BOOTPROTO="dhcp"    # 여기는 주석 처리 한다. 안해도 상관은 없는데, IP가 두개 생긴다. (고정IP 1개 + 유동IP 1개)
+#BOOTPROTO="dhcp"   
 DEFROUTE="yes"
 IPV4_FAILURE_FATAL="no"
 IPV6INIT="yes"
