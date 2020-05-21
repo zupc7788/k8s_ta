@@ -299,7 +299,7 @@ vi /etc/sysconfig/network-scripts/ifcfg-ens33
 TYPE="Ethernet"
 PROXY_METHOD="none"
 BROWSER_ONLY="no"
-BOOTPROTO="dhcp"
+#BOOTPROTO="dhcp"    # 여기는 주석 처리 한다. 안해도 상관은 없는데, IP가 두개 생긴다. (고정IP 1개 + 유동IP 1개)
 DEFROUTE="yes"
 IPV4_FAILURE_FATAL="no"
 IPV6INIT="yes"
@@ -311,7 +311,7 @@ NAME="ens33"
 UUID="852aa063-eb1f-4406-bc68-9c4a9f1ae6ee"
 DEVICE="ens33"
 ONBOOT="yes"
-IPADDR="192.168.111.169"
+IPADDR="192.168.111.169" # 고정 IP를 선언한다. DHCP에서 할당 받은, /etc/hosts파일에 추가한 IP로 지정하면 향후 해당 IP가 고정된다.
 
 ```
 
