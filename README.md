@@ -1267,9 +1267,132 @@ yum -y update
 yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+systemctl stop firewalld && systemctl disable firewalld
 ```
 
-#### 다. SMB(NFS)설치
+#### 다. Shared Storage로 사용할 마운트 포인트 생성
+
+test-storage1에서 데이터 저장 용도로 사용할 파일시스템을 선언한다. 해당 파일시스템은 향후 Remote의 Server/VM/POD에서 마운트하여 Shared Storage로 활용할 수 있다.
+
+다만 금번 시스템 구성에서는 데이터 저장용 파일시스템을 별도로 구성하지 않았으므로 디렉토리만 생성하겠다. 실제 엔터프라이즈 환경에서는 Storage를 통해 NFS를 구성하거나, 서버에서는 별도 볼륨을 할당 받아서 NFS마운트 포인트로 활용함을 기억하자.
+
+```
+mkdir /share_storage
+chmod 757 /share_storage
+```
+
+#### 라. nfs솔루션 설치
+
+yum install nfs-utils 명령으로 nfs툴을 서버에 설치한다.
+
+[설치화면]
+```
+[root@test-storage1 /]# yum install nfs-utils
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.kakao.com
+ * extras: ftp.kaist.ac.kr
+ * updates: mirror.kakao.com
+Resolving Dependencies
+--> Running transaction check
+---> Package nfs-utils.x86_64 1:1.3.0-0.66.el7 will be installed
+--> Processing Dependency: libtirpc >= 0.2.4-0.7 for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: gssproxy >= 0.7.0-3 for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: rpcbind for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: quota for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: libnfsidmap for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: libevent for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: keyutils for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: libtirpc.so.1()(64bit) for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: libnfsidmap.so.0()(64bit) for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Processing Dependency: libevent-2.0.so.5()(64bit) for package: 1:nfs-utils-1.3.0-0.66.el7.x86_64
+--> Running transaction check
+---> Package gssproxy.x86_64 0:0.7.0-28.el7 will be installed
+--> Processing Dependency: libini_config >= 1.3.1-31 for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libverto-module-base for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libref_array.so.1(REF_ARRAY_0.1.1)(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libini_config.so.3(INI_CONFIG_1.2.0)(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libini_config.so.3(INI_CONFIG_1.1.0)(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libref_array.so.1()(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libini_config.so.3()(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libcollection.so.2()(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+--> Processing Dependency: libbasicobjects.so.0()(64bit) for package: gssproxy-0.7.0-28.el7.x86_64
+---> Package keyutils.x86_64 0:1.5.8-3.el7 will be installed
+---> Package libevent.x86_64 0:2.0.21-4.el7 will be installed
+---> Package libnfsidmap.x86_64 0:0.25-19.el7 will be installed
+---> Package libtirpc.x86_64 0:0.2.4-0.16.el7 will be installed
+---> Package quota.x86_64 1:4.01-19.el7 will be installed
+--> Processing Dependency: quota-nls = 1:4.01-19.el7 for package: 1:quota-4.01-19.el7.x86_64
+--> Processing Dependency: tcp_wrappers for package: 1:quota-4.01-19.el7.x86_64
+---> Package rpcbind.x86_64 0:0.2.0-49.el7 will be installed
+--> Running transaction check
+---> Package libbasicobjects.x86_64 0:0.1.1-32.el7 will be installed
+---> Package libcollection.x86_64 0:0.7.0-32.el7 will be installed
+---> Package libini_config.x86_64 0:1.3.1-32.el7 will be installed
+--> Processing Dependency: libpath_utils.so.1(PATH_UTILS_0.2.1)(64bit) for package: libini_config-1.3.1-32.el7.x86_64
+--> Processing Dependency: libpath_utils.so.1()(64bit) for package: libini_config-1.3.1-32.el7.x86_64
+---> Package libref_array.x86_64 0:0.1.5-32.el7 will be installed
+---> Package libverto-libevent.x86_64 0:0.2.5-4.el7 will be installed
+---> Package quota-nls.noarch 1:4.01-19.el7 will be installed
+---> Package tcp_wrappers.x86_64 0:7.6-77.el7 will be installed
+--> Running transaction check
+---> Package libpath_utils.x86_64 0:0.2.1-32.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=============================================================================================================================
+ Package                            Arch                    Version                              Repository             Size
+=============================================================================================================================
+Installing:
+ nfs-utils                          x86_64                  1:1.3.0-0.66.el7                     base                  412 k
+Installing for dependencies:
+ gssproxy                           x86_64                  0.7.0-28.el7                         base                  110 k
+ keyutils                           x86_64                  1.5.8-3.el7                          base                   54 k
+ libbasicobjects                    x86_64                  0.1.1-32.el7                         base                   26 k
+ libcollection                      x86_64                  0.7.0-32.el7                         base                   42 k
+ libevent                           x86_64                  2.0.21-4.el7                         base                  214 k
+ libini_config                      x86_64                  1.3.1-32.el7                         base                   64 k
+ libnfsidmap                        x86_64                  0.25-19.el7                          base                   50 k
+ libpath_utils                      x86_64                  0.2.1-32.el7                         base                   28 k
+ libref_array                       x86_64                  0.1.5-32.el7                         base                   27 k
+ libtirpc                           x86_64                  0.2.4-0.16.el7                       base                   89 k
+ libverto-libevent                  x86_64                  0.2.5-4.el7                          base                  8.9 k
+ quota                              x86_64                  1:4.01-19.el7                        base                  179 k
+ quota-nls                          noarch                  1:4.01-19.el7                        base                   90 k
+ rpcbind                            x86_64                  0.2.0-49.el7                         base                   60 k
+ tcp_wrappers                       x86_64                  7.6-77.el7                           base                   78 k
+
+Transaction Summary
+=============================================================================================================================
+Install  1 Package (+15 Dependent packages)
+
+Total download size: 1.5 M
+
+```
+#### 마. nfs설정
+
+NFS에 접속 가능한 IP대역 및 권한을 설정한다. 현재 구성된 서버 대역이 192.168.111.X대역이므로 아래와 같이 설정한다.
+
+/etc/exports 파일을 수정한다.
+
+```
+vi /etc/exports
+
+/share_storage 192.168.111.0/255.255.255.0(rw,no_root_squash)
+```
+
+#### 바. nfs 재기동 및 서비스 등록
+
+아래 명령을 통해 nfs-server를 재부팅하고, 향후 VM재부팅시 자동 기동 되도록 서비스 등록한다.
+
+systemctl restart nfs-server && systemctl enable nfs-server
+
+```
+[root@test-storage1 /]# systemctl restart nfs-server && systemctl enable nfs-server
+Created symlink from /etc/systemd/system/multi-user.target.wants/nfs-server.service to /usr/lib/systemd/system/nfs-server.service.
+
+```
 
 
 ### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
