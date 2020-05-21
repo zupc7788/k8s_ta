@@ -1408,14 +1408,38 @@ IP:[디렉토리]
 이다.
 
 
-### [Shared Storage를 이용한 서비스 테스트]
+### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
+
+
+실제 Private Cloud를 구축하기 위해서는 반드시 Software Defined Storage구축이 필요하다. (Public Cloud는 CSP에서 Block Storage/File Storage/Object Storage를 제공하므로 별도 구축 불필요)
+
+다만 Software Defined Storag 설치 과정만으로도 매우 복잡한 설치 과정과 다수의 서버 구성이 필요하므로 금번 과정에서는 다루지 않는다.
+관련하여 Ceph Storage 에 대한 링크를 첨부하니, 관심있으면 참고하기 바란다.
+
+참고자료: https://www.oss.kr/storage/app/public/oss/43/96/[ceph]%20Solution%20Guide%20V0.95.pdf
+
+
+
+
+## 15. Docker Registry 구성
+---
+
+
+
+---
+## 16. 서비스 어플리케이션 배포
+ 
+본 섹션에서는 Ingress Controller와  NFS를 사용하는 테스트 어플리케이션을 배포하는 절차를 익힌다. 해당 과정을 통해 사용자의 Request가 어떠한 라우팅 경로를 통해 POD까지 요청이 되는지, Shared Storage의 마운트는 어떻게 작동하는지를 집중적으로 학습하기 바란다.
+
+
+
+#### 가. NFS에 테스트 소스 파일 업로드
+
+test-storage의 아래 경로에 다음과 같이 파일을 생성한다. 해당 파일은 서비스 VM 또는 POD의 Session 정보를 출력하는 간단한 jsp이다.
 
 Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이므로, 다중 Replica에서도 동일한 저장소를 공유해야 한다. 간단하게 WAS 이용하여 shared storage의 데이터를 가져오는 것을 테스트 하겠다.
 
-#### 가. 테스트 파일 업로드
-
-test-storage의 아래 경로에 다음과 같이 파일을 생성한다.\
-해당 파일은 서비스 VM 또는 POD의 Session 정보를 출력하는 간단한 jsp이다.
+참고로 배포 방식은 정답이 없으나, 일반적으로 서비스에 사용하는 Application은 Docker이미지에 패키징하고, 대용량 정적 페이지, 또는 사용자에 의해 생성되는 첨부파일의 경우는 Shared Storage를 사용하는게 일반적이다. 물론 요건에 따라서 Documentum을 사용하거나 별도의 데이터 저장 솔루션을 활용하기도 한다.
 
 
 ```
@@ -1449,26 +1473,9 @@ test-storage의 아래 경로에 다음과 같이 파일을 생성한다.\
 
 ```
 
-#### 나. Cluster에 서비스 구성
+#### 나. Cluster에 어플리케이션 배포 배포
 
 share-service.yaml
 ```
 
 ```
-
-
-### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
-
-
-실제 Private Cloud를 구축하기 위해서는 반드시 Software Defined Storage구축이 필요하다. (Public Cloud는 CSP에서 Block Storage/File Storage/Object Storage를 제공하므로 별도 구축 불필요)
-
-다만 Software Defined Storag 설치 과정만으로도 매우 복잡한 설치 과정과 다수의 서버 구성이 필요하므로 금번 과정에서는 다루지 않는다.
-관련하여 Ceph Storage 에 대한 링크를 첨부하니, 관심있으면 참고하기 바란다.
-
-참고자료: https://www.oss.kr/storage/app/public/oss/43/96/[ceph]%20Solution%20Guide%20V0.95.pdf
-
-
-
-
-## 15. Docker Registry 구성
----
