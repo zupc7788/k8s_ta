@@ -53,6 +53,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 또한 다중 Master Node <- Worker Node 구간 통신을 위해 로드밸런서(L4, L7, Haproxy, nginx등)를 통해 부하 분산처리 구성이 필요하다.
 
 관련 구성 방안은 아래 Master 노드 이중화 관련 링크를 참조바란다.
+
 https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 ![a11](https://user-images.githubusercontent.com/65584952/82410978-d614e480-9aab-11ea-91aa-11b79ac4df7c.PNG)
