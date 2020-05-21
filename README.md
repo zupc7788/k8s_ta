@@ -196,7 +196,7 @@ vi /etc/hosts
 #### [패키지 업데이트]
 ```
 yum -y update
-yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools
+yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools nfs-utils
 ```
 
 ### 다. SELinux(Security Enhanced Linux) 작동 중지
