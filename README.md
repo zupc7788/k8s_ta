@@ -546,7 +546,7 @@ systemctl enable 명령으로 서비스 등록. (추후 리눅스 재부팅시�
 
 #### [서비스 기동 및 등록]
 ```
-systemctl enable --now kubelet && systemctl start kubelet
+systemctl enable kubelet && systemctl start kubelet
 ```
 
 ---
