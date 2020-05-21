@@ -1477,10 +1477,9 @@ Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이
 NFS에 접근하기 위한 PersistentVolume과 PersistentVolumeClaim을 생성한다.
 NFS가 아닌 Software Defined Storage를 사용하거나, Public Cloud의 Block/File/Object Storage를 사용하면 Static, Dynamic하게 스토리지를 생성할 수 있으나, 금번 섹션에서는 "이미 생성되어 있는 NFS볼륨"을 마운트해서 사용하므로, 명시적으로 PV와 PVC를 선언해야 한다.
 
+[pv-pvc-nfs.yaml]
 
 ```
-vi pv-pvc-nfs.yaml
-
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -1506,6 +1505,7 @@ spec:
       storage: 1Gi
 ```
 
+[배포 이행]
 ```
 kubectl apply -f ./pv-pvc-nfs.yaml
 ```
@@ -1515,7 +1515,7 @@ kubectl apply -f ./pv-pvc-nfs.yaml
 NFS를 마운트해서 첨부파일을 호출하는 Application을 배포한다.
 일반적으로 CI/CD 파이프라인을 통해 수정/배포되는 어플리케이션은 Docker Image에 빌드되나, 금번 요건에서는 Shared Storage를 통한 파일 호출이므로 ROOT.war를 각 POD에 마운트한다.
 
-tomcat-application.yaml
+[tomcat-application.yaml]
 ```
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -1572,7 +1572,25 @@ spec:
           claimName: pvc-testwas
 ```
 
-배포 
+[배포 이행] 
 ```
 tomcat-application.yaml
 ```
+
+#### 라. 도메인 네임 등록
+
+운영 환경일 경우는 DNS에 도메인 네임을 등록하지만, 금번 테스트 환경은 DNS에 등록이 불가능 하므로 테스트를 위해 hosts파일에 도메인 네임을 등록해주도록 한다. 아래와 같이 HaProxy 로드밸런서의 IP를 본인 로컬PC의 hosts에 등록한다.
+
+[C:\Windows\System32\drivers\etc\hosts]
+```
+192.168.111.169 share-storage.localtest.com
+```
+
+### 마. 테스트 페이지 호출
+
+다음 페이지를 호출하면, request.getLocalAddr가 지속적으로 바뀌면서 테스트 페이지가 호출되는 것을 볼 수 있다. 참고로 request.getLocalAddr는 POD에 생성된 IP이며, 로드밸런서의 Round-robin 알고리즘에 의해 Replica에 선언된 여러개의 POD가 순차적으로 처리되는 것이다.
+
+http://share-storage.localtest.com/ROOT.war/test.jsp
+
+
+![SESS](https://user-images.githubusercontent.com/65584952/82528071-ea6fe480-9b72-11ea-9c45-c7ea5902bcde.PNG)
