@@ -1394,7 +1394,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/nfs-server.serv
 
 ```
 
-### 사. nfs 마운트 포인트 기록
+#### 사. nfs 마운트 포인트 기록
 
 이제 NFS Shared Storage 구성이 완료되었다. Mount Point를 반드시 기억해 두고, PV구성시 또는 컨테이너 내부에서 해당 Mount Point를 통해 NFS에 접근하도록 한다.
 
@@ -1408,11 +1408,11 @@ IP:[디렉토리]
 이다.
 
 
-## [Shared Storage를 이용한 서비스 테스트]
+### [Shared Storage를 이용한 서비스 테스트]
 
 Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이므로, 다중 Replica에서도 동일한 저장소를 공유해야 한다. 간단하게 nginx를 이용하여 shared storage의 데이터를 가져오는 것을 테스트 하겠다.
 
-### 가. 테스트 파일 업로드
+#### 가. 테스트 파일 업로드
 
 test-storage의 아래 경로에 다음과 같이 파일을 생성한다.\
 해당 파일은 서비스 VM 또는 POD의 Session 정보를 출력하는 간단한 jsp이다.
@@ -1449,11 +1449,11 @@ test-storage의 아래 경로에 다음과 같이 파일을 생성한다.\
 
 ```
 
-### 나. Cluster에 서비스 구성
+#### 나. Cluster에 서비스 구성
 
 
 
-## [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
+### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
 
 
 실제 Private Cloud를 구축하기 위해서는 반드시 Software Defined Storage구축이 필요하다. (Public Cloud는 CSP에서 Block Storage/File Storage/Object Storage를 제공하므로 별도 구축 불필요)
