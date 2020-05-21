@@ -49,10 +49,10 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 ### [참고자료: 운영 환경 권고 아키텍처]
 
-다만 실제 엔터프라이즈 환경에서는 falut-tolerantf를 고려하여 아래와 같이 3, 5, 7대의 Master서버로 이중화하여 구성 한다.
-또한 해당 Master서버에 대한 통신은 로드밸런서(L4, L7, Haproxy, nginx등)를 통해 부하 분산처리 구성이 필요하다.
+금번 과정은 단일 Master Node에 다중 Worker Node로 구성을 진행하나, 실제 엔터프라이즈 환경에서는 falut-tolerant를 고려 Master서버 다중화가 필요 하다. (일반적으로 3, 5, 7대로 구성)
+또한 다중 Master Node <- Worker Node 구간 통신을 위해 로드밸런서(L4, L7, Haproxy, nginx등)를 통해 부하 분산처리 구성이 필요하다.
 
-Master 노드 이중화는 다음 링크를 참조하도록 해야 하며, 
+관련 구성 방안은 아래 Master 노드 이중화 관련 링크를 참조바란다.
 https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 ![a11](https://user-images.githubusercontent.com/65584952/82410978-d614e480-9aab-11ea-91aa-11b79ac4df7c.PNG)
