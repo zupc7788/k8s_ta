@@ -1410,7 +1410,7 @@ IP:[디렉토리]
 
 ### [Shared Storage를 이용한 서비스 테스트]
 
-Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이므로, 다중 Replica에서도 동일한 저장소를 공유해야 한다. 간단하게 nginx를 이용하여 shared storage의 데이터를 가져오는 것을 테스트 하겠다.
+Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이므로, 다중 Replica에서도 동일한 저장소를 공유해야 한다. 간단하게 WAS 이용하여 shared storage의 데이터를 가져오는 것을 테스트 하겠다.
 
 #### 가. 테스트 파일 업로드
 
