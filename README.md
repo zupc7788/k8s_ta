@@ -1394,6 +1394,19 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/nfs-server.serv
 
 ```
 
+### 사. nfs 마운트 포인트 기록
+
+이제 NFS Shared Storage 구성이 완료되었다. Mount Point를 반드시 기억해 두고, PV구성시 또는 컨테이너 내부에서 해당 Mount Point를 통해 NFS에 접근하도록 한다.
+
+Mount포인트 룰은 아래와 같다.
+
+```
+IP:[디렉토리]
+
+따라서 본 nfs의 마운트 포인트는
+192.168.111.177:/share_storage
+이다.
+```
 
 ### [참고자료: 실제 운영 환경에서 사용하는 스토리지는?]
 
