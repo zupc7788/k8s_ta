@@ -1586,7 +1586,7 @@ tomcat-application.yaml
 192.168.111.169 share-storage.localtest.com
 ```
 
-### 마. 테스트 페이지 호출
+#### 마. 테스트 페이지 호출
 
 다음 페이지를 호출하면, request.getLocalAddr가 지속적으로 바뀌면서 테스트 페이지가 호출되는 것을 볼 수 있다. 참고로 request.getLocalAddr는 POD에 생성된 IP이며, 로드밸런서의 Round-robin 알고리즘에 의해 Replica에 선언된 여러개의 POD가 순차적으로 처리되는 것이다.
 
