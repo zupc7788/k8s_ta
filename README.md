@@ -1472,10 +1472,107 @@ Share Storage는 Multi-node, Multi-POD간의 데이터를 공유하는 방식이
 %>
 
 ```
+#### 나. NFS에 대한 PV, PVC 생성
 
-#### 나. Cluster에 어플리케이션 배포 배포
+NFS에 접근하기 위한 PersistentVolume과 PersistentVolumeClaim을 생성한다.
+NFS가 아닌 Software Defined Storage를 사용하거나, Public Cloud의 Block/File/Object Storage를 사용하면 Static, Dynamic하게 스토리지를 생성할 수 있으나, 금번 섹션에서는 "이미 생성되어 있는 NFS볼륨"을 마운트해서 사용하므로, 명시적으로 PV와 PVC를 선언해야 한다.
 
-share-service.yaml
+
+```
+vi pv-pvc-nfs.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-testwas
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.111.177
+    path: /share_storage/test_service
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-testwas
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
 ```
 
+```
+kubectl apply -f ./pv-pvc-nfs.yaml
+```
+
+#### 다. 어플리케이션 배포
+
+NFS를 마운트해서 첨부파일을 호출하는 Application을 배포한다.
+일반적으로 CI/CD 파이프라인을 통해 수정/배포되는 어플리케이션은 Docker Image에 빌드되나, 금번 요건에서는 Shared Storage를 통한 파일 호출이므로 ROOT.war를 각 POD에 마운트한다.
+
+tomcat-application.yaml
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: ingress-test-was
+spec:
+ rules:
+ - host: share-storage.localtest.com
+   http:
+     paths:
+     - path: /
+       backend:
+         serviceName: svc-tomcat
+         servicePort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-tomcat
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: test-was
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-was
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: test-was
+  template:
+    metadata:
+      labels:
+        app: test-was
+    spec:
+      containers:
+      - image: tomcat
+        name: tomcat
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /usr/local/tomcat/webapps
+          name: pvc-volume
+      volumes:
+      - name : pvc-volume
+        persistentVolumeClaim:
+          claimName: pvc-testwas
+```
+
+배포 
+```
+tomcat-application.yaml
 ```
