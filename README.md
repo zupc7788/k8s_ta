@@ -91,32 +91,24 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 
 
-### [ OS 이미지 다운로드]
-
-아래 다운로드 링크에서 이미지를 다운로드 한다.
-
-http://ftp.kaist.ac.kr/CentOS/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso
-
-
-일반적으로 RedHat계열(RedHat, CentOS등)과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열인 CentOS를 사용한다. CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나, 일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용한다. (사유 X-Windows 유무)
-
-참고로 아래 링크를 통해 최신 버전의 CentOS를 다운 받을 수 있다.
-
-```
-https://www.centos.org/download/
-```
-
 ### [참고자료: Kubernetes Hardware Requirements]
 
-참고로 Kubernetes는 다음 OS를 지원한다.
+참고로 Kubernetes의 최소 Requirements는 다음과 같다.
+
 ```
-    Ubuntu 16.04+
-    Debian 9
-    CentOS 7
-    RHEL 7
-    Fedora 25/26 (best-effort)
-    HypriotOS v1.0.1+
-    Container Linux (tested with 1800.6.0)
+One or more machines running one of:
+ - Ubuntu 16.04+
+ - Debian 9
+ - CentOS 7
+ - RHEL 7
+ - Fedora 25/26 (best-effort)
+ - HypriotOS v1.0.1+
+ - Container Linux (tested with 1800.6.0)
+
+
+Minimal required memory & CPU (cores)
+ - Master node’s minimal required memory is 2GB and the worker node needs minimum is 1GB
+ - The master node needs at least 1.5 and the worker node need at least 0.7 cores.
 ```
 
 ---
@@ -131,6 +123,21 @@ https://www.centos.org/download/
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
 
 ### [설치 절차]
+
+#### [사전작업: OS 이미지 다운로드]
+
+아래 다운로드 링크에서 이미지를 다운로드 한다.
+
+http://ftp.kaist.ac.kr/CentOS/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso
+
+
+일반적으로 RedHat계열(RedHat, CentOS등)과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열인 CentOS를 사용한다. CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나, 일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용한다. (사유 X-Windows 유무)
+
+참고로 아래 링크를 통해 최신 버전의 CentOS를 다운 받을 수 있다.
+
+```
+https://www.centos.org/download/
+```
 
 #### 가. New Virtual Machine 생성
 ![V1](https://user-images.githubusercontent.com/65584952/82286541-e90ab480-99d8-11ea-97ba-eb60a7a80a7e.png)
