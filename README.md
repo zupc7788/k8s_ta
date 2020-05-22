@@ -116,15 +116,13 @@ Minimal required memory & CPU (cores)
 
 ## 3. VM 생성 및 Linux 설치
 
-금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다.
-
-다만, 실제 엔터프라이즈 환경에서는 VMWare ESXi Hypervisor 또는 Xen 기반의 VM으로 시스템을 구축한다.
+금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다. 다만, 실제 엔터프라이즈 환경에서는 VMWare ESXi Hypervisor 또는 Xen 기반의 VM으로 시스템을 구축한다.
 
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
 
 ### [설치 절차]
 
-#### [사전작업: OS 이미지 다운로드]
+#### 사전작업: OS 이미지 다운로드
 
 아래 다운로드 링크에서 이미지를 다운로드 한다.
 
@@ -356,9 +354,9 @@ IPADDR="192.168.111.169" # 고정 IP를 선언한다. DHCP에서 할당 받은, 
 ---
 ## 7. Docker, Kubernetes 엔진 설치
 
-### 가. Docker 설치
+### [Docker 설치]
 
-#### [설치 명령]
+#### 가. 설치 명령
 Docker 설치 위한 Yum Repository를 추가 한 후, Yum으로 패키지 설치 진행한다.
 
 Yum Repository를 추가하지 않을 경우, OS Default Repository에서 다운로드 받으므로 주의 한다.
@@ -370,7 +368,7 @@ yum-config-manager    --add-repo     https://download.docker.com/linux/centos/do
 yum install docker-ce docker-ce-cli containerd.io -y
 ```
 
-#### [진행 과정]
+#### 나. 진행 과정
 
 
 ```
@@ -446,13 +444,13 @@ Transaction Summary
 Install  3 Packages (+9 Dependent packages)
 
 ```
-### 나. Docker 기동
-#### [Docker 기동]
+### [Docker 기동]
+
 ```
 systemctl start docker && systemctl enable docker
 ```
 
-### 다. Kubernetes Repository 추가
+### [Kubernetes Repository]
 아래 명령어를 통해 /etc/yum.repos.d 경로에 Kubernetes Repository를 추가한다.
 
 ```
@@ -467,11 +465,12 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 ```
 
-### 라. Kubernetes Repository 추가 확인
+### [Kubernetes Repository 추가 확인]
 
 yum -y update를 통해 추가된 Repository를 확인한다.
 
-#### [확인 절차]
+#### 가. 확인 절차
+
 ```
 [root@test-master ~]# yum -y update
 Loaded plugins: fastestmirror
@@ -493,17 +492,17 @@ No packages marked for update
 
 ```
 
-### 마. Kubernetes 패키지 설치
+### [ Kubernetes 패키지 설치]
 
 yum을 통해 Master 및 Node에 Kubernetes 패키지를 설치한다.
 
-#### [패키지 설치 절차]
+#### 가. 패키지 설치 절차
 ```
 yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
 ```
 
-#### [패키지 설치 진행 내역]
+#### 나. 패키지 설치 진행 내역
 ```
 [root@test-node1 ~]# yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 Loaded plugins: fastestmirror
@@ -576,12 +575,12 @@ Downloading packages:
 ```
 
 
-### 바. Kubernetes 서비스 기동 및 영구 서비스 등록
+### [Kubernetes 서비스 기동 및 영구 서비스 등록]
+
 systemctl start 명령으로 서비스 기동.
 
 systemctl enable 명령으로 서비스 등록. (추후 리눅스 재부팅시에도 자동 기동됨)
 
-#### [서비스 기동 및 등록]
 ```
 systemctl enable kubelet && systemctl start kubelet
 ```
