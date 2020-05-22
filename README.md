@@ -131,7 +131,7 @@ Minimal required memory & CPU (cores)
 http://ftp.kaist.ac.kr/CentOS/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso
 
 
-일반적으로 RedHat계열(RedHat, CentOS등)과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열인 CentOS를 사용한다. CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나, 일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용한다. (사유 X-Windows 유무)
+일반적으로 RedHat계열과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열의 무료 배포판인 CentOS를 사용한다. CentOS 이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나, 일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용하거나 DVD, Everything에서 X-windows를 제외한 형태로 설치한다. 무얼 선택하든 상관없으나 테스트 환경은 제한적인 Computing Power로 여러 VM을 구성하므로 가급적 Minimal로 구성을 권고한다. 
 
 참고로 아래 링크를 통해 최신 버전의 CentOS를 다운 받을 수 있다.
 
