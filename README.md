@@ -24,7 +24,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
 
 ### [목차]
 
-   *1. Infra 구성(VM구축)*
+   1. Infra 구성(VM구축)
    2. Kubernetes Master 노드 구성
    3. Container Network Interface 구성
    4. Kubernetes Worker 노드 구성
@@ -35,7 +35,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
    9. 테스트 어플리케이션 배포
  
 ### [향후 작성 예정]
-```
+
    1. Application Mig. (Refactoring)
    2. Cloud Native. (Rebuild)
    3. CI/CD 구성
@@ -43,7 +43,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
    5. Logging(ELK) 구성
    6. API Gateway 구성
    7. Service Mesh 구성
-```
+
 
 ---
 
