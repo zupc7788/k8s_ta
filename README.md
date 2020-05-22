@@ -23,7 +23,7 @@
 K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절차에 따라 진행한다.
 
 ### [목차]
-```
+
    *1. Infra 구성(VM구축)*
    2. Kubernetes Master 노드 구성
    3. Container Network Interface 구성
@@ -33,7 +33,7 @@ K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절�
    7. Application Load Balancer 구성
    8. Private Registry 구성
    9. 테스트 어플리케이션 배포
-```   
+ 
 ### [향후 작성 예정]
 ```
    1. Application Mig. (Refactoring)
