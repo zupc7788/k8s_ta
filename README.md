@@ -1120,11 +1120,11 @@ Kubernetes Node는 복수의 Machine으로 구성되어 있으나, 사용자의 
 
 일반적으로 On-premise 환경의 운영 시스템의 경우는 L4, L7스위치 같은 네트워크 스위치를 통해 로드밸런싱을 수행하며, Public Cloud의 경우는 CSP 사업자가 제공하는 Application Load Balancer나 NetScaler와 같은 장비를 이용하여 구성하는게 보통이다.
 
-그러나 본 테스트 환경에서는 그러한 솔루션을 사용할 수 없으므로, S/W기반의 HaProxy로 L7 로드밸런서를 구현하도록하겠다. 해당 솔루션은 본 과정에서Application Load Balancer의 역할로 구성하나, 실제 운영 환경에서는 Reverse Proxy솔루션으로 매우 많이 활용되는 유용한 솔루션이므로 배워두면 두고두고 활용 가능한 제품이다.
+그러나 본 테스트 환경에서는 H/W로드밸런서를 사용할 수 없으므로, S/W기반의 HaProxy로 로드밸런서를 구현하도록하겠다. 해당 솔루션은 본 과정에서Application Load Balancer목적으로 설정하나, 실제 운영 환경에서는 DMZ망 분리 목적의 Reverse Proxy로 매우 많이 활용되는 제품이므로 배워두면 여러모로 활용 가능한 제품이다.
 
 ### [H/W 방식 부하 분산]
 
-Private Cloud의 경우는 L4 Switch를 통한 로드밸런싱이 필요하며, Public Cloud의 경우 Application Load Balancer를 사용하거나 NetScaler와 같은 부하 분산 장비를 구축하여 단일 EndPoint를 제공해야 한다.
+Private Cloud의 경우는 L4 Switch를 통한 로드밸런싱이 필요하며, Public Cloud의 경우 Application Load Balancer를 사용하거나 NetScaler와 같은 부하 분산 장비를 구축하여 단일 EndPoint를 제공한다. H/W적으로 처리하므로 성능과 안정성이 매우 우수하다.
 
 ![lb](https://user-images.githubusercontent.com/65584952/82416387-e67d8d00-9ab4-11ea-8137-4c215c0b9775.PNG)
 
