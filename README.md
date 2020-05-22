@@ -1423,6 +1423,8 @@ IP:[디렉토리]
 
 ## 15. Docker Registry 구성
 
+![docker-stages](https://user-images.githubusercontent.com/65584952/82618174-3ec7a280-9c0d-11ea-804b-7a654bd87d04.png)
+
 도커(Docker)에서 이미지를 저장하고 배포 할 수 있는 Registry 구축 방법에 대해 이해한다. 
 
 도커 레지스트리는 Public 서비스로 제공하는 Docker Hub를 이용하면 Registry 구축 없이 도커 이미지를 저장하고 배포할 수 있다. 그러나 도커 이미지 등이 회사 내부에서 비공개적으로 사용되거나, Private Network 대역에서 사용되기 위해서는 내부 서버에 도커 Registry를 구축해야 한다. 공식적으로 제공되는 도커 이미지 처럼, 다양한 종류의 도커 이미지와 버전 등을 관리 할 수 있는 사설 저장소(Repository)를 구축하여 사용하는 방법을 익힌다.
