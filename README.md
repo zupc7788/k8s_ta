@@ -14,7 +14,7 @@
 
 ### [목표 아키텍처]
 
-금번 과정을 통해 Cluster와 Registry를 구축할 수 있으며, Application Migration을 비롯하여, CI/CD, API Gateway, 모니터링, 서비스 매쉬, 등은 별도로 다룰 예정이다.
+금번 과정을 통해 Cluster와 Registry를 구축할 수 있습니다.
 
 ![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
 ---
@@ -71,11 +71,16 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 
 ---
-## 2. VM 스펙 선정
+## 2. VM 생성
 
-VMWare에서 다음 스펙으로 VM주문한다. 
+### [VM 스펙 할당]
 
-물론 테스트 환경이므로 최저 구성한 스펙이며, 실제 운영 환경은 훨씬 고스펙이 필요하다.
+VMWare에서 테스트 목적의 최소 스펙으로 VM을 구성한다. 실제 운영 환경의 경우는 좀 더 스펙 산정에 유의한다. 과거의 엔터프라이즈 환경을 구성할때에는 벤더가 제공하는 TPM(Transaction Per Minute) 기준으로 H/W스펙을 산정하기도 했으나, 최근의 Cloud환경은 단일 Host Box를 여러 서비스가 Shared해서 쓰는 방식이므로 큰 의미는 없다. (TPM정보를 제공하지 않는 Vendor도 많음)
+
+따라서 최근의 VM 스펙 산정 추세는, 서비스의 특성과 사용량을 고려하여 Reserved Memory와 CPU Core를 산정하여 Peak Time에도 장애가 발생하지 않도록 어느 정도 버퍼를 두고 시스템을 구축하고, 성능 테스트를 통해 스펙을 조정한다. 특히 Public Cloud의 경우는 Well-architected Framework문서에 조차 "스펙을 사전에 산정하지 않는다"고 언급될 만큼 사정 스펙 산정의 중요도는 생각보다 높지 않다.
+
+
+### [ VM 생성]
 
 |*용도*|*Hostname*|*CPU*|*MEM*|*Disk*|
 |-|-|-|-|-|
