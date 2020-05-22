@@ -1422,6 +1422,59 @@ IP:[디렉토리]
 
 
 ## 15. Docker Registry 구성
+
+도커(Docker)에서 이미지를 저장하고 배포 할 수 있는 Registry 구축 방법에 대해 이해한다. 
+
+도커 레지스트리는 Public 서비스로 제공하는 Docker Hub를 이용하면 Registry 구축 없이 도커 이미지를 저장하고 배포할 수 있다. 그러나 도커 이미지 등이 회사 내부에서 비공개적으로 사용되거나, Private Network 대역에서 사용되기 위해서는 내부 서버에 도커 Registry를 구축해야 한다. 공식적으로 제공되는 도커 이미지 처럼, 다양한 종류의 도커 이미지와 버전 등을 관리 할 수 있는 사설 저장소(Repository)를 구축하여 사용하는 방법을 익힌다.
+
+금번 Docker Registry는 Docker에서 제공하는 기본 Registry를 Kubernetes POD로 구성하고, 사용자의 pull/push는 HaProxy를 통해 Reverse Proxy 역할을 수행한다. 또한 이미지는 영구적으로 보관 되야 하며, Kubernetes Cluster에서 공유되어야 하므로 NFS Shared Storage를 사용하여 구성한다. 일반적으로 Public Cloud에서 구성할때는 Object Storage를 사용하며, Private Cloud에 구성할때 역시 별도의 NAS를 사용하거나 Ceph과 같은 Software Defined Storage를 사용해야 한다.
+
+
+참고자료: https://docs.docker.com/registry/deploying/#lets-encrypt
+
+### [이미지 저장 스토리지 구성]
+
+도커 이미지는 일반적으로 Public Cloud에 구성할때는 Object Storage를 사용하거나 SMB, NFS기반의 File Storage를 사용하며, Private Cloud에 구성할때는 NAS를 사용하거나 NFS, SAMBA 또는 CIFS와 같은 Shared Storage로 구성한다. 
+
+금번 과정에서는 NFS서버를 구성하였으므로, 해당 Storage를 Docker Image 저장 목적의 볼륨으로 활용한다.
+
+[test-storage 서버에 docker registry용 파일시스템 또는 디렉토리 생성]
+```
+mkdir /share_storage/docker_registry/
+```
+
+[registry-pv-pvc.yaml 구성]
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-docker-registry
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.111.177
+    path: /share_storage/docker_registry/
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-docker-registry
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+[객체 생성]
+```
+kubectl apply -f ./registry-pv-pvc.yaml
+```
+
 ---
 
 
