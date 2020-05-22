@@ -1632,6 +1632,74 @@ vi /etc/docker/daemon.json
 systemctl restart docker
 ```
 
+### [ Docker Registry 테스트]
+
+#### 가. Build 할 Application 준비
+
+```
+mkdir nginx_docker
+cd nginx_docker
+echo "nginx test page" > index.html
+```
+
+#### 나. Dockerfile 생성
+
+vi Docker file
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html/
+```
+
+#### 다. Docker 이미지 빌드
+
+docker build -t registry.localtest.com/my-nginx .
+
+[실행 화면]
+```
+docker build -t registry.localtest.com/my-nginx .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM nginx
+ ---> 9beeba249f3e
+Step 2/2 : COPY index.html /usr/share/nginx/html/
+ ---> Using cache
+ ---> 8a0b55b86e1b
+Successfully built 8a0b55b86e1b
+Successfully tagged registry.localtest.com/my-nginx:latest
+
+```
+
+#### 라. Docker 이미지 Push
+
+docker push registry.localtest.com/my-nginx
+
+[실행화면]
+```
+docker push registry.localtest.com/my-nginx
+The push refers to repository [registry.localtest.com/my-nginx]
+2093db183cd6: Layer already exists
+6c7de695ede3: Layer already exists
+2f4accd375d9: Pushed
+ffc9b21953f4: Pushed
+latest: digest: sha256:64757478db2ea7ac9e46cdbfe17978267dd6dc200e1bb0f805a1d27f61cc69f6 size: 1155
+```
+
+
+#### 마. Application 실행
+
+Docker Registry에 업로드된 이미지로 서비스 배포한다.
+
+```
+kubectl run new-nginx --image=registry.localtest.com/my-nginx --port=80
+
+
+webwas@DESKTOP-JQ6ILBP:~$ kubectl get po
+NAME                               READY   STATUS        RESTARTS   AGE
+docker-registry-59d8bbb8f9-f6clr   1/1     Running       0          116s
+new-nginx                          1/1     Running       0          83s
+
+```
+
+
 ---
 ## 16. 서비스 어플리케이션 배포
  
