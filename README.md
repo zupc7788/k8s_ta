@@ -1423,13 +1423,14 @@ IP:[디렉토리]
 
 ## 15. Docker Registry 구성
 
-![docker-stages](https://user-images.githubusercontent.com/65584952/82618174-3ec7a280-9c0d-11ea-804b-7a654bd87d04.png)
-
 도커(Docker)에서 이미지를 저장하고 배포 할 수 있는 Registry 구축 방법에 대해 이해한다. 
 
 도커 레지스트리는 Public 서비스로 제공하는 Docker Hub를 이용하면 Registry 구축 없이 도커 이미지를 저장하고 배포할 수 있다. 그러나 도커 이미지 등이 회사 내부에서 비공개적으로 사용되거나, Private Network 대역에서 사용되기 위해서는 내부 서버에 도커 Registry를 구축해야 한다. 공식적으로 제공되는 도커 이미지 처럼, 다양한 종류의 도커 이미지와 버전 등을 관리 할 수 있는 사설 저장소(Repository)를 구축하여 사용하는 방법을 익힌다.
 
 금번 Docker Registry는 Docker에서 제공하는 기본 Registry를 Kubernetes POD로 구성하고, 사용자의 pull/push는 HaProxy를 통해 Reverse Proxy 역할을 수행한다. 또한 이미지는 영구적으로 보관 되야 하며, Kubernetes Cluster에서 공유되어야 하므로 NFS Shared Storage를 사용하여 구성한다. 일반적으로 Public Cloud에서 구성할때는 Object Storage를 사용하며, Private Cloud에 구성할때 역시 별도의 NAS를 사용하거나 Ceph과 같은 Software Defined Storage를 사용해야 한다.
+
+
+![docker-stages](https://user-images.githubusercontent.com/65584952/82618174-3ec7a280-9c0d-11ea-804b-7a654bd87d04.png)
 
 
 참고자료: https://docs.docker.com/registry/deploying/#lets-encrypt
@@ -1440,12 +1441,12 @@ IP:[디렉토리]
 
 금번 과정에서는 NFS서버를 구성하였으므로, 해당 Storage를 Docker Image 저장 목적의 볼륨으로 활용한다.
 
-[test-storage 서버에 docker registry용 파일시스템 또는 디렉토리 생성]
+#### 가. test-storage 서버에 docker registry용 파일시스템 또는 디렉토리 생성
 ```
 mkdir /share_storage/docker_registry/
 ```
 
-[registry-pv-pvc.yaml 구성]
+#### 나. registry-pv-pvc.yaml 파일 생성
 ```
 apiVersion: v1
 kind: PersistentVolume
@@ -1472,14 +1473,128 @@ spec:
       storage: 10Gi
 ```
 
-[객체 생성]
+#### 다. PV, PVC 생성
 ```
 kubectl apply -f ./registry-pv-pvc.yaml
 ```
 
+### Docker Registry 배포
+
+#### 가. docker-registry-svc-deploy.yaml 파일 생성
+
+도커 레지스트리를 생성하기 위한 Ingress, Service, Deployment를 생성한다.  Ingress생성시에는 proxy-body-size를 0으로 설정해서 무제한으로 하거나 적정한 사이즈로 설정해야 한다. 해당 설정은 TCP소켓 통신시 데이터 사이즈를 정하는 설정으로, 기본값으로 구성할 경우 대용량 Docker Image 전송이 불가능하다.
+
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: ingress-docker-registry
+ annotations:
+   nginx.ingress.kubernetes.io/proxy-body-size: "0"
+   nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+   nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+   kubernetes.io/tls-acme: 'true'
+spec:
+ rules:
+ - host: registry.localtest.com
+   http:
+     paths:
+     - path: /
+       backend:
+         serviceName: svc-docker-registry
+         servicePort: 5000
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-docker-registry
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: docker-registry
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docker-registry
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+    spec:
+      containers:
+      - image: registry:latest
+        name: docker-registry
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/registry/
+          name: pvc-volume
+      volumes:
+      - name : pvc-volume
+        persistentVolumeClaim:
+          claimName: pvc-docker-registry  
+```
 
+#### 나. docker-registry-svc-deploy.yaml 적용
 
+```
+kubectl apply -f ./docker-registry-svc-deploy.yaml
+```
+
+#### 다. 생성 여부 확인
+
+```
+webwas@DESKTOP-JQ6ILBP:~$ kubectl get po
+NAME                               READY   STATUS        RESTARTS   AGE
+docker-registry-59d8bbb8f9-zhbfj   1/1     Running       0          7m25s
+test-was-79b8c5cd6f-nv4r8          1/1     Running       0          55m
+test-was-79b8c5cd6f-s5zfd          1/1     Running       1          126m
+test-was-79b8c5cd6f-sgxr2          1/1     Running       1          126m
+
+webwas@DESKTOP-JQ6ILBP:~$ kubectl get svc
+svc-docker-registry   ClusterIP   10.107.108.27   <none>        5000/TCP   7m32s
+
+webwas@DESKTOP-JQ6ILBP:~$ kubectl get ing
+NAME                      CLASS    HOSTS                         ADDRESS           PORTS   AGE
+ingress-docker-registry   <none>   registry.localtest.com        192.168.111.173   80      7m34s
+```
+
+### [Optional: Docker Image Client 측 구성]
+
+기본적으로 Docker Registry는 HTTPS통신을 기본으로 수행하며, HTTP로 Docker pull/push를 할 경우 아래와 같은 에러가 발생한다.
+
+```
+Get https://xxx.xxx.xxx.xxx:5000/v1/_ping: http: server gave HTTP response to HTTPS client
+```
+
+원인은 push 커맨드는 HTTPS로 진행되는데, 설치한 docker-registry가 HTTP만 지원해서 그렇다. push를 HTTP로 할 수 있도록 docker 설정을 변경해 주면 된다. 해당 설정은 Docker push, pull을 수행하는 모든 서버에서 필요하므로 금번 섹션에서는 node1~3에서 수행해야 한다.
+
+다만 운영 환경을 구축할때는 Docker Registry의 URL에 SSL인증서를 적용하므로 당연히 해당 작업은 불필요하며, 보안상으로도 좋지 않다. 따라서 테스트 환경에서만 해당 구성으로 진행한다.
+
+#### 가. Insecure-registries 설정 추가
+모든 Node서버에 아래 파일 수정한다. (가급적 Master나 Client PC에도 설정하는 운영할때 편하다.)
+vi /etc/docker/daemon.json
+```
+{
+   "insecure-registries" : [ "registry.localtest.com" ]
+}
+```
+
+#### 나. Docker 서비스 재기동
+모든 Node서버의 Docker Daemon 재기동
+```
+systemctl restart docker
+```
 
 ---
 ## 16. 서비스 어플리케이션 배포
