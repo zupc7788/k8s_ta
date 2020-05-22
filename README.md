@@ -1,5 +1,4 @@
 # 개요
-<span style="color:red">Red Text</span>
 본 아키텍처 구축 문서는 마이크로 서비스 응용 프로그램이 배포될 수 있는 Kubernetes Clustering의 기본 아키텍처에 대해 설명합니다. 이를 통해 마이크로 서비스를 실행하기 위한 Private Cloud Cluster 구축 실무 역량 향상과 Container 기반 서비스 아키텍처 이해도를 높이는데 중점을 두어 작성했습니다. 
 
 또한 본 문서에는 보안상 이슈가 될 수 있는 특정 기업의 업무 컨텐츠는 포함하지 않습니다.
