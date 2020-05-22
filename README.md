@@ -1419,7 +1419,7 @@ IP:[디렉토리]
 참고자료: https://www.oss.kr/storage/app/public/oss/43/96/[ceph]%20Solution%20Guide%20V0.95.pdf
 
 
-
+---
 
 ## 15. Docker Registry 구성
 
