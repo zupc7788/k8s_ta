@@ -71,7 +71,7 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 
 ---
-## 2. VM 생성
+## 2. 시스템 스펙 산정
 
 ### [VM 스펙 할당]
 
@@ -81,8 +81,6 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 따라서 최근의 VM 스펙 산정 추세는, 서비스의 특성과 사용량을 고려하여 Reserved Memory와 CPU Core를 산정하여 Peak Time에도 장애가 발생하지 않도록 어느 정도 버퍼를 두고 시스템을 구축하고, 서비스 성능 테스트를 통해 스펙을 조정하거나 Scalable하게 시스템을 운영 한다. 특히 Public Cloud의 경우는 Well-architected Framework문서에 조차 "Eliminate guessing about your infrastructure capacity needs"라고 언급될 만큼 사정 스펙 산정의 중요도는 별로 높지 않다.
 
-
-### [ VM 생성]
 
 |*용도*|*Hostname*|*CPU*|*MEM*|*Disk*|
 |-|-|-|-|-|
@@ -94,17 +92,14 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 ---
 
-## 3. OS 이미지 다운로드
+### [ OS 이미지 다운로드]
 
 아래 다운로드 링크에서 이미지를 다운로드 한다.
 
 http://ftp.kaist.ac.kr/CentOS/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso
 
 
-일반적으로 RedHat계열(RedHat, CentOS등)과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열인 CentOS를 사용한다.
-
-CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나,
-일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용한다. (사유 X-Windows 유무)
+일반적으로 RedHat계열(RedHat, CentOS등)과 Ubuntu계열을 많이 쓰나, 금번 테스트는 RedHat계열인 CentOS를 사용한다. CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가 존재하나, 일반적으로 On-premise에서는 DVD ISO를 주로 사용하며, Public Cloud에서는 Minimal을 주로 사용한다. (사유 X-Windows 유무)
 
 참고로 아래 링크를 통해 최신 버전의 CentOS를 다운 받을 수 있다.
 
@@ -112,10 +107,23 @@ CentOS이미지에도 DVD ISO / Everything ISO / Minimal ISO 등 여러가지가
 https://www.centos.org/download/
 ```
 
+### [참고자료: Kubernetes Hardware Requirements]
+
+참고로 Kubernetes는 다음 OS를 지원한다.
+```
+    Ubuntu 16.04+
+    Debian 9
+    CentOS 7
+    RHEL 7
+    Fedora 25/26 (best-effort)
+    HypriotOS v1.0.1+
+    Container Linux (tested with 1800.6.0)
+```
+
 ---
 
 
-## 4. VM 생성
+## 3. [ Hypervisor VM 생성 ]
 
 금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다.
 
@@ -123,29 +131,31 @@ https://www.centos.org/download/
 
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
 
-### New Virtual Machine 생성
+#### 가. New Virtual Machine 생성
 ![V1](https://user-images.githubusercontent.com/65584952/82286541-e90ab480-99d8-11ea-97ba-eb60a7a80a7e.png)
 
-### Linux 생성
+#### 나. Linux 생성
 ![V2](https://user-images.githubusercontent.com/65584952/82286543-e9a34b00-99d8-11ea-8a72-c327e07d1af1.png)
 
-### VM명 지정 (Master, node1, node2, node3등 구분이 쉽게 지정)
+#### 다. VM명 지정 (Master, node1, node2, node3등 구분이 쉽게 지정)
 ![V3](https://user-images.githubusercontent.com/65584952/82286546-e9a34b00-99d8-11ea-86f2-ff1e013427db.png)
 
-### First Disk 용량 지정 (향후 증설 가능하나 LVM작업이 추가 필요하므로 Node는 가급적 60GB이상 설정)
+#### 라. First Disk 용량 지정 (향후 증설 가능하나 LVM작업이 추가 필요하므로 Node는 가급적 60GB이상 설정)
 ![V4](https://user-images.githubusercontent.com/65584952/82286547-ea3be180-99d8-11ea-931b-81011a8d559a.png)
 
-### VM 기본 설정 완료
+#### 마. VM 기본 설정 완료
 ![V5](https://user-images.githubusercontent.com/65584952/82286534-e6a85a80-99d8-11ea-8ec5-7deb24e401f5.png)
 
-### VM 세부 설정 수행
+#### 바. VM 세부 설정 수행
 ![V6](https://user-images.githubusercontent.com/65584952/82286535-e7d98780-99d8-11ea-9ce6-940afbad7d72.png)
 
-### Processors와 Memory를 사전 정의한 스펙으로 변경
+#### 사. Processors와 Memory를 사전 정의한 스펙으로 변경
 ![V7](https://user-images.githubusercontent.com/65584952/82286537-e7d98780-99d8-11ea-9884-59e315e865ab.png)
 
 ---
-## 5. Linux OS 설치
+## 4. Linux OS 환경 설정
+
+### [환경 설정 절차]
 
 ### 언어 설정: 한국어
 ![L1](https://user-images.githubusercontent.com/65584952/82287023-3176a200-99da-11ea-8c58-a8f38a0b7237.PNG)
