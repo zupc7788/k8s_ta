@@ -8,30 +8,42 @@
 ---
 
 
-# Private Cloud 아키텍처
+# 구축 목표
 
+본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, CI/CD, 모니터링, 서비스 매쉬, API Gateway를 비롯한 플랫폼 엔지니어링과 Application Migration은 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해와 명령어 수행이 가능하다는 전제하에 작성 된 문서입니다.
 
-본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, 플랫폼 엔지니어링와 Container 기반의 어플리케이션 마이그레이션은 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해와 명령어 수행이 가능하다는 전제하에 작성 된 문서입니다.
+## [목표 아키텍처]
 
+금번 과정을 통해 Cluster와 Registry를 구축한다.
+향후 Application Migration을 비롯하여, CI/CD, API Gateway, 모니터링, 서비스 매쉬, 등은 별도로 다룰 예정.
 
 ![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
 ---
 
-# 수행 절차
+# 진행 절차
 
 K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절차에 따라 진행한다.
 
+### [본 섹션 목차]
    1. Infra 구성(VM구축)
-   2. Kubernetes(Master/Node) 구성
-   3. Internal Network 구성
-   4. Private Registry 구성
+   2. Kubernetes Master 노드 구성
+   3. Container Network Interface 구성
+   4. Kubernetes Worker 노드 구성
    5. Application Load Balancer 구성
-   5. Shared Storage(NFS) 구성
-   6. CI/CD 구성
-   7. Monitoring(Prometheus/Grafana) 구성
-   8. Logging(ELK) 구성
-   9. Application Mig. (Refactoring)
-   10. Cloud Native. (Rebuild)
+   6. Shared Storage(NFS) 구성
+   7. Application Load Balancer 구성
+   8. Private Registry 구성
+   9. 테스트 어플리케이션 배포
+   
+### [향후 작성 예정]
+   1. Application Mig. (Refactoring)
+   2. Cloud Native. (Rebuild)
+   3. CI/CD 구성
+   4. Monitoring(Prometheus/Grafana) 구성
+   5. Logging(ELK) 구성
+   6. API Gateway 구성
+   7. Service Mesh 구성
+
 
 ---
 
