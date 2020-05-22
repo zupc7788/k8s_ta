@@ -701,7 +701,9 @@ kubeadm 실행 시  나온 config파일로 K8S접속 환경을 구성한다.
 다만 기본적으로, Master와 Worker Node에는 기본적으로 해당 구성을 하길 권고하며,
 작업용 로컬PC에도 구성해서 운영하는게 편리하다.
 
-### [K8S접속 환경 설정]
+### [Master Node에 Client설정]
+
+#### 가. K8S접속 Client 설정
 아래 명령을 Master서버에서 실행.
 
 ```
@@ -710,14 +712,14 @@ kubeadm 실행 시  나온 config파일로 K8S접속 환경을 구성한다.
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-### [접속 테스트]
+#### 나. 접속 테스트
 ```
 [root@test-master /]# kubectl get all
 NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   3m12s
 ```
 
-### [참고자료] Windows에 Ubuntu WSL방식으로 설치하여 Client 환경 구성
+### [ 로컬PC에서 WSL Ubuntu로 Client 설정]
 
 윈도우는 WSL방식의 Native로 기동되는 리눅스를 제공한다.
 따라서 굳이 별도의 작업용 Client서버를 구축할 필요없이, 로컬에서 직접 작업이 가능하도록 환경 구성이 가능하다.
