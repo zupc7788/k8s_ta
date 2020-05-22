@@ -90,7 +90,6 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 |Node3|test-node3|2Core|4GB|50GB|
 
 
----
 
 ### [ OS 이미지 다운로드]
 
@@ -123,13 +122,15 @@ https://www.centos.org/download/
 ---
 
 
-## 3. [ Hypervisor VM 생성 ]
+## 3. VM 생성 및 Linux 설치
 
 금번 환경 구축은 VMWare Workstation 또는 VMWare Player로 진행한다.
 
 다만, 실제 엔터프라이즈 환경에서는 VMWare ESXi Hypervisor 또는 Xen 기반의 VM으로 시스템을 구축한다.
 
 (Virtual Box로 해도 무방하나, Master-Node간의 라우팅 설정을 추가로 해줘야 하므로, 가급적 VMWare계열로 하는게 편함)
+
+### [설치 절차]
 
 #### 가. New Virtual Machine 생성
 ![V1](https://user-images.githubusercontent.com/65584952/82286541-e90ab480-99d8-11ea-97ba-eb60a7a80a7e.png)
@@ -157,32 +158,32 @@ https://www.centos.org/download/
 
 ### [환경 설정 절차]
 
-### 언어 설정: 한국어
+#### 가. 언어 설정: 한국어
 ![L1](https://user-images.githubusercontent.com/65584952/82287023-3176a200-99da-11ea-8c58-a8f38a0b7237.PNG)
 
-### 파티션 설정:설치 대상 선택
+#### 나. 파티션 설정:설치 대상 선택
 ![L2_2](https://user-images.githubusercontent.com/65584952/82292025-02196280-99e5-11ea-80f7-1ea56e87f2a3.png)
 
-### 파티션 설정: 자동으로 선택
+#### 다. 파티션 설정: 자동으로 선택
 실제 운영기에 구성할때는 용도별로 파일시스템과 Swap 파티션을 구분하여 설정하나,
 금번 테스트 환경은 자동으로 생성함 (/에 전체 파일시스템 할당 및 Swap 자동 생성)
 
 ![L3](https://user-images.githubusercontent.com/65584952/82287025-320f3880-99da-11ea-98b8-29746a3d906c.PNG)
 
-### 네트워크 설정: 네트워크 및 호스트명 선택
+#### 라. 네트워크 설정: 네트워크 및 호스트명 선택
 ![L4](https://user-images.githubusercontent.com/65584952/82287027-320f3880-99da-11ea-9d32-38b71aea24cc.PNG)
 
-### 네트워크 설정: 호스트명 및 이더넷 카드 활성화
+#### 마. 네트워크 설정: 호스트명 및 이더넷 카드 활성화
 1. 이더넷 카드 On
 2. 호스트명 입력 -> 적용
 3. 완료
 ![l5](https://user-images.githubusercontent.com/65584952/82287018-2facde80-99da-11ea-8199-a29949452966.PNG)
 
-### 설치 시작
+#### 바. 설치 시작
 OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 ![L6](https://user-images.githubusercontent.com/65584952/82287019-30457500-99da-11ea-803e-3d0d3240530d.PNG)
 
-### ROOT암호 설정
+#### 사. ROOT암호 설정
 ![L7](https://user-images.githubusercontent.com/65584952/82287022-30de0b80-99da-11ea-8f7b-3c7c80842b73.PNG)
 
 ---
@@ -203,8 +204,9 @@ Kubernetes Cluster를 구성하기 위한 OS환경 설정을 수행한다. 실�
 
 금번 과정에서는 K8S설치에 필요한 최소한의 환경 설정 작업만 수행한다.
 
+### [환경 설정 절차]
 
-### 가. hosts파일 수정(/etc/hosts)
+#### 가. hosts파일 수정(/etc/hosts)
 /etc/hosts파일에 각 서버의 호스트명과 IP를 입력한다. (IP는 ip a 명령으로 확인 가능)
 ```
 
@@ -215,7 +217,7 @@ vi /etc/hosts
 192.168.111.170	test-node3
 ```
 
-### 나. Linux 최신 업데이트 및 추가 유틸리티 설치 (root계정)
+#### 나. Linux 최신 업데이트 및 추가 유틸리티 설치 (root계정)
 
 리눅스에 설치된 패키지를 최신 버전으로 업데이트 한다.
 
@@ -227,7 +229,7 @@ yum -y update
 yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools nfs-utils
 ```
 
-### 다. SELinux(Security Enhanced Linux) 작동 중지
+#### 다. SELinux(Security Enhanced Linux) 작동 중지
 
 SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스나 Native Object에 대한 관리를 수행한다.
 
@@ -247,7 +249,7 @@ sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 Permissive
 ```
 
-### 라. OS 스왑 중지
+#### 라. OS 스왑 중지
 메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다.
 
 하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다.
@@ -276,7 +278,7 @@ Swap:             0           0           0
 
 ```
 
-### 마. OS방화벽 중지
+#### 마. OS방화벽 중지
 보안정책이 잘 짜여진 기업의 경우는, 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다.
 
 Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용하며, 전통적으로는 iptables로 제어하기도 한다.
@@ -301,7 +303,7 @@ systemctl stop firewalld && systemctl disable firewalld
      Docs: man:firewalld(1)
 ```
 
-### 바. 브릿지 네트워크 관련 OS커널 파라미터 변경
+#### 바. 브릿지 네트워크 관련 OS커널 파라미터 변경
 
 ```
 cat <<EOF >  /etc/sysctl.d/k8s.conf
@@ -311,7 +313,7 @@ EOF
 sysctl --system
 ```
 
-### 사. 고정IP 설정
+#### 사. 고정IP 설정
 
 기본적으로 VM이 구성되면, DHCP에 의해 유동IP가 할당된다.
 해당 IP는 언제든 바뀔 수 있으므로, 향후에 VM재부팅 시에 정상작동되지 않을 수 있다.
