@@ -1,6 +1,6 @@
 # 개요
 
-본 아키텍처 구축 문서는 마이크로 서비스 응용 프로그램이 배포될 수 있는 Kubernetes Clustering의 기본 아키텍처에 대해 설명합니다. 이를 통해 마이크로 서비스를 실행하기 위한 Private Cloud Cluster 구축 실무 역량 향상에 중점을 두어 작성했습니다. 
+본 아키텍처 구축 문서는 마이크로 서비스 응용 프로그램이 배포될 수 있는 Kubernetes Clustering의 기본 아키텍처에 대해 설명합니다. 이를 통해 마이크로 서비스를 실행하기 위한 Private Cloud Cluster 구축 실무 역량 향상과 Container 기반 서비스 아키텍처 이해도를 높이는데 중점을 두어 작성했습니다. 
 
 또한 본 문서에는 보안상 이슈가 될 수 있는 특정 기업의 업무 컨텐츠는 포함하지 않습니다.
 
@@ -10,7 +10,7 @@
 
 # 구축 목표
 
-본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, CI/CD, 모니터링, 서비스 매쉬, API Gateway를 비롯한 플랫폼 엔지니어링과 Application Migration은 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해와 명령어 수행이 가능하다는 전제하에 작성 된 문서입니다.
+본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, CI/CD, 모니터링, 서비스 매쉬, API Gateway를 비롯한 플랫폼 엔지니어링과 Application Migration은 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해를 하고 있으며, 기본 명령어 수행이 가능하다는 전제하에 작성 된 문서입니다.
 
 ## [목표 아키텍처]
 
