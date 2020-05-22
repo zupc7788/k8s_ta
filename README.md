@@ -1116,19 +1116,22 @@ tcp        0      0 0.0.0.0:32334           0.0.0.0:*               LISTEN
 
 ## 13. Application Load Balancer 구성
 
-Kubernetes Node는 복수개로 구성되어 있으나, 사용자의 요청을 받는 EndPoint는 단일 해야 한다.
-따라서 L4, L7 스위치나 SW방식의 로드밸런서 구성을 통해 복수개의 Worker Node로 부하 분산이 반드시 필요하며, 
+Kubernetes Node는 복수의 Machine으로 구성되어 있으나, 사용자의 요청을 받는 EndPoint는 단일 해야 한다. 따라서 사용자의 요청을 받아 여러 Machine으로 부하를 분산해주는 Load Balancer가 반드시 필요하다. 
 
-### [H/W방식의 운영 환경 부하 분산]
+일반적으로 On-premise 환경의 운영 시스템의 경우는 L4, L7스위치 같은 네트워크 스위치를 통해 로드밸런싱을 수행하며, Public Cloud의 경우는 CSP 사업자가 제공하는 Application Load Balancer나 NetScaler와 같은 장비를 이용하여 구성하는게 보통이다.
 
-따라서 Private Cloud의 경우는 L4 Switch를 통한 로드밸런싱이 필요하며, Public Cloud의 경우 Application Load Balancer를 사용하거나 NetScaler와 같은 부하 분산 장비를 구축하여 단일 EndPoint를 제공해야 한다.
+그러나 본 테스트 환경에서는 그러한 솔루션을 사용할 수 없으므로, S/W기반의 HaProxy로 L7 로드밸런서를 구현하도록하겠다. 해당 솔루션은 본 과정에서Application Load Balancer의 역할로 구성하나, 실제 운영 환경에서는 Reverse Proxy솔루션으로 매우 많이 활용되는 유용한 솔루션이므로 배워두면 두고두고 활용 가능한 제품이다.
+
+### [H/W 방식 부하 분산]
+
+Private Cloud의 경우는 L4 Switch를 통한 로드밸런싱이 필요하며, Public Cloud의 경우 Application Load Balancer를 사용하거나 NetScaler와 같은 부하 분산 장비를 구축하여 단일 EndPoint를 제공해야 한다.
 
 ![lb](https://user-images.githubusercontent.com/65584952/82416387-e67d8d00-9ab4-11ea-8137-4c215c0b9775.PNG)
 
-### [HaProxy를 이용한 부하 분산]
+### [S/W 방식 부하 분산]
 
-금번 시스템 구축의 경우는 가상의 테스트장비를 구축하는 과정이므로, SW방식의 HaProxy를 이용한 로드밸런서를 구현하겠다.
-SW방식의 부하 분산은 HaProxy를 사용하거나, nginx, Apache와 같은 웹서버의 Reverse Proxy기능을 이용해서 구현해도 무방하다.
+금번 시스템 구축의 경우는 가상의 테스트장비를 구축하는 과정이므로, SW방식의 HaProxy를 이용한 로드밸런서를 구현한다.
+SW방식의 부하 분산은 HaProxy를 사용하거나, nginx, Apache와 같은 웹서버를 이용해서 구현해도 무방하다.
 
 #### 가. Master Node에 HaProxy 설치
 
