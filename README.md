@@ -12,7 +12,7 @@
 
 본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, CI/CD, 모니터링, 서비스 매쉬, API Gateway를 비롯한 플랫폼 엔지니어링과 Application Migration은 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해를 하고 있으며, 기본 명령어 수행이 가능하다는 전제하에 작성 된 문서입니다.
 
-## [목표 아키텍처]
+### [목표 아키텍처]
 
 금번 과정을 통해 Cluster와 Registry를 구축한다.
 향후 Application Migration을 비롯하여, CI/CD, API Gateway, 모니터링, 서비스 매쉬, 등은 별도로 다룰 예정.
@@ -24,7 +24,7 @@
 
 K8S기반 Private Cloud System 실행/운영 환경을 구성하며, 다음 절차에 따라 진행한다.
 
-### [본 섹션 목차]
+### [목차]
    1. Infra 구성(VM구축)
    2. Kubernetes Master 노드 구성
    3. Container Network Interface 구성
