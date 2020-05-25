@@ -466,11 +466,11 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 ```
 
-### [Kubernetes Repository 추가 확인]
+### [Kubernetes Repository 업데이트]
 
-yum -y update를 통해 추가된 Repository를 확인한다.
+yum -y update를 통해 Repository를 통해 패키지를 최신 버전으로 업데이트 한다.
 
-#### 가. 확인 절차
+#### 가. 실행 절차
 
 ```
 [root@test-master ~]# yum -y update
@@ -672,7 +672,20 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
     --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
 ```
-위 두 부분은 Client와 Node 서버 구성에 사용하므로 반드시 기록해 둔다.
+위에서 다음 두 부분은 Client와 Node 서버 구성에 사용되므로 반드시 기록해 둔다.
+
+#### 가. Kubernetes Client 환경설정
+```
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+#### 나. Kubernetes Cluster Join 명령
+```
+kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
+    --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
+```
 
 ---
 ## 9. K8S Client 구성
