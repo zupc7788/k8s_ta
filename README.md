@@ -836,9 +836,7 @@ CNI 플러그인 중 오버레이 네트워크를 제공하는 대표적인 플�
 ---
 ## 11. Worker Node 구성
 
-Node1~3은 본 클러스터 환경 내에서 Kubernetes 에이전트 역할을 한다.
-
-따라서 Master Node 구성 섹션에서 복사한 kubeadm join명령을 test-node1~3 머신에서 각각 실행하여, Cluster에 조인한다.
+Node1~3은 본 클러스터 환경 내에서 Kubernetes 에이전트 역할을 한다. 따라서 Master Node 구성 섹션에서 복사한 kubeadm join명령을 test-node1~3 머신에서 각각 실행하여, Cluster에 조인한다.
 
 ![3](https://user-images.githubusercontent.com/65584952/82286703-4272e380-99d9-11ea-9ac3-17a3fcf8ea4e.jpg)
 
@@ -1086,11 +1084,9 @@ nginx-ingress-default-backend-7c868597f4-9q6x4  1/1    Running  0         3m34s
 #### 마. 서비스IP 및 포트 확인
 
 Ingress Controller의 IP와 포트는 향수 사용자 Request를 처리하는 Endpoint 역할을 수행한다.
-따라서 해당 IP/Port를 반드시 숙지하고 있어야 한다.
+따라서 해당 IP/Port를 반드시 숙지하고 있어야 한다. 아래와 같이 HTTP포트는 32334, SSL포트는 30570임을 알 수 있다.
 
-아래와 같이 HTTP포트는 32334, SSL포트는 30570임을 알 수 있다.
-
-참골, Public Cloud의 경우는 External-IP가 Cloud API를 통해 자동으로 생성되어 외부IP를 네트워크 장비에 자동으로 Bind하는 명령을 제공하지만, Private Cloud의 경우는 External-IP가 할당 될 수 없으므로, Pending상태로 유지될 수 밖에 없다. 이는 정상이다.
+참, Public Cloud의 경우는 External-IP가 Cloud API를 통해 자동으로 생성되어 외부IP를 네트워크 장비에 자동으로 Bind하는 명령을 제공하지만, Private Cloud의 경우는 External-IP가 할당 될 수 없으므로, Pending상태로 유지될 수 밖에 없다. 이는 정상이다.
 
 ```
 webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get svc -n ingress-basic
