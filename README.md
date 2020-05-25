@@ -13,7 +13,7 @@
 
 ### [목표 아키텍처]
 
-금번 과정을 통해 Cluster와 Registry를 구축할 수 있습니다.
+금번 과정을 통해 Cluster와 Registry, Load Balancer, Shared Storage를 구축하고 작동 아키텍처를 이해 할 수 있습니다.
 
 ![1](https://user-images.githubusercontent.com/65584952/82286539-e8721e00-99d8-11ea-97b1-058548be68f6.PNG)
 ---
