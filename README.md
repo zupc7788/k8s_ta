@@ -161,6 +161,7 @@ https://www.centos.org/download/
 #### 사. Processors와 Memory를 사전 정의한 스펙으로 변경
 ![V7](https://user-images.githubusercontent.com/65584952/82286537-e7d98780-99d8-11ea-9884-59e315e865ab.png)
 
+
 ---
 ## 4. Linux OS 환경 설정
 
@@ -193,6 +194,8 @@ OS설치를 시작하며, 설치가 완료되면 재부팅 한다.
 
 #### 사. ROOT암호 설정
 ![L7](https://user-images.githubusercontent.com/65584952/82287022-30de0b80-99da-11ea-8f7b-3c7c80842b73.PNG)
+
+#### 위 절차를 반복하여 test-node1~3 추가 구성
 
 ---
 ## 6. Linux OS 환경 설정
