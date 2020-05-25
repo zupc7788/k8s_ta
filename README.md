@@ -297,9 +297,7 @@ Swap:             0           0           0
 ```
 
 #### 마. OS방화벽 중지
-보안정책이 잘 짜여진 기업은 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다. 특히 Linux의 경우는 Firewalld와 iptables를 이용하여 netfilter기반의 Rule-based 패킷 처리를 수행한다. 이는 kernel space에 위치하며 방화벽을 포함하여 모든 오고 가는 패킷의 라우팅을 관리하며 규칙에 매칭되는 패킷을 발견하면 미리 정의된 action을 수행한다. 
-
-다만 Kubernetes호스트에서는 반드시 주의 해야 하는 사항은, 실제 Pod로 전달하는 것은 모두 netfilter가 담당하게 되었고 kube-proxy를 이용하여 순히 이 netfilter의 규칙을 자체적으로 수정하게 된다는 사실이다. 따라 중복 관리가 되지 않도록 firewalld를 Off해야 한다.
+보안정책이 잘 짜여진 기업은 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다. 특히 Linux의 경우는 Firewalld와 iptables를 이용하여 OS방화벽을 제어한다. 다만 Kubernetes호스트에서는 반드시 주의 해야 하는 사항은, 실제 Pod로 전달하는 것은 모두 netfilter역할을 iptables가 담당하게 되었고 kube-proxy를 이용하여 이 netfilter기반의 Rule-Bases 패킷 처리를 자체적으로 수정하게 된다는 사실이다. 따라서 OS방화벽 데몬으로 인한 중복 제어가 되지 않도록 OS firewalld를 Off해야 한다.
 
 
 #### [OS방화벽 중지]
