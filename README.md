@@ -272,9 +272,7 @@ Permissive
 ```
 
 #### 라. OS 스왑 중지
-메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다. 하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다.
-
-(ex. Kubernetes, Oracle Database등)
+메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다. 하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다. (ex. Kubernetes, Oracle Database등)
 
 #### [설정 전: swap이 3GB 설정되어 있음]
 ```
@@ -299,9 +297,10 @@ Swap:             0           0           0
 ```
 
 #### 마. OS방화벽 중지
-보안정책이 잘 짜여진 기업의 경우는, 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다. Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용하며, 전통적으로는 iptables로 제어하기도 한다. 하지만 Kubernetes의 경우는, 자체적으로 Kube-proxy정책에 의해 라우팅 룰이 정의 되므로 반드시 OS방화벽을 Off해야 한다.
+보안정책이 잘 짜여진 기업은 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다. 특히 Linux의 경우는 Firewalld와 iptables를 이용하여 netfilter기반의 Rule-based 패킷 처리를 수행한다. 이는 kernel space에 위치하며 방화벽을 포함하여 모든 오고 가는 패킷의 라우팅을 관리하며 규칙에 매칭되는 패킷을 발견하면 미리 정의된 action을 수행한다. 
 
-(사실 켜도 룰이 작동 안 된다.)
+다만 Kubernetes호스트에서는 반드시 주의 해야 하는 사항은, 실제 Pod로 전달하는 것은 모두 netfilter가 담당하게 되었고 kube-proxy를 이용하여 순히 이 netfilter의 규칙을 자체적으로 수정하게 된다는 사실이다. 따라 중복 관리가 되지 않도록 firewalld를 Off해야 한다.
+
 
 #### [OS방화벽 중지]
 ```
