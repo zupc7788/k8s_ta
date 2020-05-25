@@ -87,7 +87,7 @@ https://kubernetes.io/ko/docs/tasks/administer-cluster/highly-available-master/
 
 다만 실제 운영 환경의 경우는 서비스의 특성과 사용량을 고려하여 좀 더 스펙 산정에 유의 한다. 특히 Baremetal로 시스템을 구축하는 경우는, 과거엔 벤더가 제공하는 TPM(Transaction Per Minute) 기준으로 H/W스펙을 산정하기도 했으나, 최근의 Cloud환경은 단일 Host Box를 여러 서비스가 리소스를 Shared해서 쓰는 방식이므로 큰 의미는 없다. 이는 Private Cloud로 구축하는 VMWare or Xen기반의 Hypervisor든, Public Cloud의 자체 Host Server기반이든 동일하다. 
 
-따라서 최근의 VM 스펙 산정 추세는, 서비스의 특성과 사용량을 고려하여 Reserved Memory와 CPU Core를 산정하여 Peak Time에도 장애가 발생하지 않도록 어느 정도 버퍼를 두고 시스템을 구축하고, 서비스 성능 테스트를 통해 스펙을 조정하거나 Scalable하게 시스템을 운영 한다. 특히 Public Cloud의 경우는 Well-architected Framework문서에 조차 "Eliminate guessing about your infrastructure capacity needs"라고 언급될 만큼 사전 스펙 산정의 중요도는 별로 높지 않다.
+따라서 최근의 VM 스펙 산정 추세는, 서비스의 특성과 사용량을 고려하여 Reserved Memory와 CPU Core를 산정하여 Peak Time에도 장애가 발생하지 않도록 어느 정도 버퍼를 두고 시스템을 구축하고, 서비스 성능 테스트를 통해 스펙을 조정한 후 Scalable하게 시스템을 운영 한다. 특히 Public Cloud는 Well-architected Framework문서에 조차 "Eliminate guessing about your infrastructure capacity needs"라고 언급될 만큼 사전 스펙 산정이 그렇게 중요한 요소는 아니다.
 
 
 
