@@ -245,9 +245,7 @@ vi /etc/hosts
 
 #### 나. Linux 최신 업데이트 및 추가 유틸리티 설치 (root계정)
 
-리눅스에 설치된 패키지를 최신 버전으로 업데이트 한다.
-
-추가로 디스크 관리 패키지와 네트워크 관리 패키지를 설치한다.
+리눅스에 설치된 패키지를 최신 버전으로 업데이트 한다. 추가로 디스크 관리 패키지와 네트워크 관리 패키지를 설치한다.
 
 #### [패키지 업데이트]
 ```
@@ -257,9 +255,7 @@ yum install -y yum-utils  device-mapper-persistent-data   lvm2 net-tools nfs-uti
 
 #### 다. SELinux(Security Enhanced Linux) 작동 중지
 
-SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스나 Native Object에 대한 관리를 수행한다.
-
-따라서 기본적으로 OS가 제공하는 툴이 아닐 경우 정상 작동하지 않는 경우가 다수 존재하므로 반드시 Permissive로 변경한다.
+SELinux는 리눅스 커널 레벨의 보안 정책 관리 툴로 프로세스나 Native Object에 대한 관리를 수행한다. 따라서 기본적으로 OS가 제공하는 툴이 아닐 경우 정상 작동하지 않는 경우가 다수 존재하므로 반드시 Permissive로 변경한다.
 
 1. Enforcing(작동), 2. Permissive(작동하지 않으나 기록), 3. Disabled(완전 중지)
 
@@ -276,9 +272,7 @@ Permissive
 ```
 
 #### 라. OS 스왑 중지
-메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다.
-
-하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다.
+메모리 부족을 해결하기 위해 Linux는 Swap Disk를 제공한다. 하지만 고성능이 요구되는 시스템의 경우는 일반적으로 Swap을 사용하지 않고, 고용량 메모리를 할당하는것을 권고한다.
 
 (ex. Kubernetes, Oracle Database등)
 
@@ -305,11 +299,7 @@ Swap:             0           0           0
 ```
 
 #### 마. OS방화벽 중지
-보안정책이 잘 짜여진 기업의 경우는, 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다.
-
-Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용하며, 전통적으로는 iptables로 제어하기도 한다.
-
-하지만 Kubernetes의 경우는, 자체적으로 Kube-proxy정책에 의해 라우팅 룰이 정의 되므로 반드시 OS방화벽을 Off해야 한다.
+보안정책이 잘 짜여진 기업의 경우는, 네트워크 레벨의 방화벽 뿐만 아니라 OS에서 Outbound/Inbound통신을 제어한다. Linux의 경우 전통적으로 RedHat 7이상에선 보통 Firewalld를 사용하며, 전통적으로는 iptables로 제어하기도 한다. 하지만 Kubernetes의 경우는, 자체적으로 Kube-proxy정책에 의해 라우팅 룰이 정의 되므로 반드시 OS방화벽을 Off해야 한다.
 
 (사실 켜도 룰이 작동 안 된다.)
 
@@ -341,10 +331,7 @@ sysctl --system
 
 #### 사. 고정IP 설정
 
-기본적으로 VM이 구성되면, DHCP에 의해 유동IP가 할당된다.
-해당 IP는 언제든 바뀔 수 있으므로, 향후에 VM재부팅 시에 정상작동되지 않을 수 있다.
-
-따라서 아래와 같이 /etc/sysconfig/network-scripts/ifcfg-ens33 파일에 IPADDR추가를 통해 ens33 NIC디바이스에 고정 IP를 할당한다.
+기본적으로 VM이 구성되면, DHCP에 의해 유동IP가 할당된다. 해당 IP는 언제든 바뀔 수 있으므로, 향후에 VM재부팅 시에 정상작동되지 않을 수 있다. 따라서 아래와 같이 /etc/sysconfig/network-scripts/ifcfg-ens33 파일에 IPADDR추가를 통해 ens33 NIC디바이스에 고정 IP를 할당한다.
 
 IP는 /etc/hosts에 선언한 IP와 동일하게 구성하면 된다. (DHCP로 부터 할당 받은 IP를 향후에 고정으로 쓸 예정)
 
@@ -378,11 +365,7 @@ IPADDR="192.168.111.169" # 고정 IP를 선언한다. DHCP에서 할당 받은, 
 ### [Docker 설치]
 
 #### 가. 설치 명령
-Docker 설치 위한 Yum Repository를 추가 한 후, Yum으로 패키지 설치 진행한다.
-
-Yum Repository를 추가하지 않을 경우, OS Default Repository에서 다운로드 받으므로 주의 한다.
-
-또한 만약 내부망에서 구성할 경우에는 외부 Repository를 연동 할 수 없으므로 Forward Proxy방식의 Yum Repository를 추가 구축해야 한다.
+Docker 설치 위한 Yum Repository를 추가 한 후, Yum으로 패키지 설치 진행한다. Yum Repository를 추가하지 않을 경우, OS Default Repository에서 다운로드 받으므로 주의 한다. 또한 만약 내부망에서 구성할 경우에는 외부 Repository를 연동 할 수 없으므로 Forward Proxy방식의 Yum Repository를 추가 구축해야 한다.
 
 ```
 yum-config-manager    --add-repo     https://download.docker.com/linux/centos/docker-ce.repo
@@ -611,10 +594,7 @@ systemctl enable kubelet && systemctl start kubelet
 
 ### [Kubeadm 초기화 수행] (Master Node에서만 수행)
 
-kubeadm init명령으로 수행하여 Master Node를 초기 구성한다.
-pod-network-cidr은 K8S POD의 네트워크 설정이며, POD간의 통신을 위한 애드온인 pod Network Add-on 이 사용하는 CIDR값이다.
-
-해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. (해당 설정을 하지 않으면 디폴트로 구성 됨)
+kubeadm init명령으로 수행하여 Master Node를 초기 구성한다. pod-network-cidr은 K8S POD의 네트워크 설정이며, POD간의 통신을 위한 애드온인 pod Network Add-on 이 사용하는 CIDR값이다. 해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. 
 
 ```
 kubeadm init --pod-network-cidr 10.244.0.0/16
