@@ -1880,3 +1880,8 @@ http://share-storage.localtest.com/ROOT.war/test.jsp
 
 
 ![SESS](https://user-images.githubusercontent.com/65584952/82528071-ea6fe480-9b72-11ea-9c45-c7ea5902bcde.PNG)
+
+---
+# 마치며
+
+금번 과정을 통해 기본적인 Private Cloud에 컨테이너 기반 Kubernetes 클러스터 구성을 마친다. 
