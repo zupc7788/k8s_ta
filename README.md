@@ -186,6 +186,7 @@ https://www.centos.org/download/
 1. 이더넷 카드 On
 2. 호스트명 입력 -> 적용
 3. 완료
+
 ![l5](https://user-images.githubusercontent.com/65584952/82287018-2facde80-99da-11ea-8199-a29949452966.PNG)
 
 #### 바. 설치 시작
