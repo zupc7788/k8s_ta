@@ -9,7 +9,7 @@
 
 # 구축 목표
 
-본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다룰 예정이며, Application Migration을 비롯한 플랫폼(CI/CD, 모니터링, 서비스 매쉬, API Gateway) 관련 컨텐츠는 별도 문서로 다룰 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해와 기본 명령어 수행이 가능하다는 전제하에 작성 된 문서이므로 관련 기초 역량은 반드시 사전에 습득 바랍니다.
+본 문서는 철저하게 Cluster와 Registry, L4, Shared Storage를 비롯한 실행 환경에 대해 다루고 있으며, Application Migration을 비롯한 플랫폼(CI/CD, 모니터링, 서비스 매쉬, API Gateway) 관련 컨텐츠는 별도 작성 할 예정입니다.  또한 Docker와 Kubernetes에 대한 기초적인 개념 이해와 기본 명령어 수행이 가능하다는 전제하에 작성 된 문서이므로 관련 기초 역량은 반드시 사전에 습득 바랍니다.
 
 ### [목표 아키텍처]
 
