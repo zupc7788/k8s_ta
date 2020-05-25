@@ -1086,7 +1086,7 @@ nginx-ingress-default-backend-7c868597f4-9q6x4  1/1    Running  0         3m34s
 Ingress Controller의 IP와 포트는 향수 사용자 Request를 처리하는 Endpoint 역할을 수행한다.
 따라서 해당 IP/Port를 반드시 숙지하고 있어야 한다. 아래와 같이 HTTP포트는 32334, SSL포트는 30570임을 알 수 있다.
 
-참, Public Cloud의 경우는 External-IP가 Cloud API를 통해 자동으로 생성되어 외부IP를 네트워크 장비에 자동으로 Bind하는 명령을 제공하지만, Private Cloud의 경우는 External-IP가 할당 될 수 없으므로, Pending상태로 유지될 수 밖에 없다. 이는 정상이다.
+참고로, Public Cloud의 경우는 External-IP가 Cloud API를 통해 자동으로 생성되어 외부IP를 네트워크 장비에 자동으로 Bind하는 명령을 제공하지만, Private Cloud의 경우는 External-IP가 할당 될 수 없으므로, Pending상태로 유지될 수 밖에 없다. 이는 정상이다.
 
 ```
 webwas@DESKTOP-JQ6ILBP:~/.kube$ kubectl get svc -n ingress-basic
