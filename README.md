@@ -909,6 +909,12 @@ kube-system   weave-net-ss2s2                       2/2     Running   0         
 kube-system   weave-net-t9zk5                       2/2     Running   4          65m
 kube-system   weave-net-x2w5s                       2/2     Running   0          6m10s
 ```
+
+### Kubelet 서비스 등록 및 기동
+```
+systemctl enable kubelet && systemctl start kubelet
+```
+
 ---
 ## 12. Ingress Controller 구성
 
