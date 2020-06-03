@@ -594,11 +594,11 @@ systemctl enable kubelet && systemctl start kubelet
 kubeadm init명령으로 수행하여 Master Node를 초기 구성한다. pod-network-cidr은 K8S POD의 네트워크 설정이며, POD간의 통신을 위한 애드온인 pod Network Add-on 이 사용하는 CIDR값이다. 해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. 
 
 ```
-kubeadm init --pod-network-cidr 10.244.0.0/16
+kubeadm init --pod-network-cidr=10.244.0.0/16
 ```
 
 ```
-[root@test-master /]# kubeadm init --pod-network-cidr 10.244.0.0/16
+[root@test-master /]# kubeadm init --pod-network-cidr=10.244.0.0/16
 W0520 09:12:34.249547    9675 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.2
 [preflight] Running pre-flight checks
