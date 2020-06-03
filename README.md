@@ -594,11 +594,11 @@ systemctl enable kubelet && systemctl start kubelet
 kubeadm init명령으로 수행하여 Master Node를 초기 구성한다.  추가로 IP대역을 변경하고 싶으면 pod-network-cidr 설정으로 K8S POD의 네트워크의 설정을 변경 가능하며, 해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. 
 
 ```
-kubeadm init 
+kubeadm init --pod-network-cidr=10.244.0.0/16
 ```
 
 ```
-[root@test-master /]# kubeadm init
+[root@test-master /]# kubeadm init --pod-network-cidr=10.244.0.0/16
 W0520 09:12:34.249547    9675 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.2
 [preflight] Running pre-flight checks
@@ -762,13 +762,13 @@ POD간의 통신이 이루어질 수 있도록 CNI를 설치하여 오버레이 
 CNI플러그인은 Calico, Flannel, Weave-net등 다양한 CNI플러그인을 제공하며,
 대부분의 역할을 유사하나, 네트워크 정책 관리의 특성이나 보안관련 특성이 상이할 수 있다.
 
-다양한 CNI를 선택적으로 설치할 수 있으나, 금번 환경 구성에서는 weave-net을 설치한다. 
+다양한 CNI를 선택적으로 설치할 수 있으나, 금번 환경 구성에서는 Flannel을 설치한다. 
 
 
 #### 가. CNI 설치
 
 ```
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
 #### 나. 설치 확인
@@ -778,14 +778,9 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 ```
 [root@test-master .kube]# kubectl get po --all-namespaces
 NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
-kube-system   coredns-66bff467f8-l9mwf              1/1     Running   0          58m
-kube-system   coredns-66bff467f8-s4qc7              1/1     Running   0          58m
-kube-system   etcd-test-master                      1/1     Running   1          58m
-kube-system   kube-apiserver-test-master            1/1     Running   1          58m
-kube-system   kube-controller-manager-test-master   1/1     Running   1          58m
-kube-system   kube-proxy-xvtbz                      1/1     Running   1          58m
-kube-system   kube-scheduler-test-master            1/1     Running   1          58m
-kube-system   weave-net-t9zk5                       2/2     Running   0          64s
+kube-system   kube-flannel-ds-amd64-7nm4z      1/1     Running   0          2m56s
+
+
 ```
 ### [참고 자료] CNI를 설치하는 이유?
 
