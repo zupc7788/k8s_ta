@@ -768,7 +768,7 @@ CNI플러그인은 Calico, Flannel, Weave-net등 다양한 CNI플러그인을 �
 #### 가. CNI 설치
 
 ```
-kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-v                                                                          ersion=$(kubectl version | base64 | tr -d '\n')"
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 ```
 
 #### 나. 설치 확인
