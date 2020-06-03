@@ -591,14 +591,14 @@ systemctl enable kubelet && systemctl start kubelet
 
 ### [Kubeadm 초기화 수행] (Master Node에서만 수행)
 
-kubeadm init명령으로 수행하여 Master Node를 초기 구성한다. pod-network-cidr은 K8S POD의 네트워크 설정이며, POD간의 통신을 위한 애드온인 pod Network Add-on 이 사용하는 CIDR값이다. 해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. 
+kubeadm init명령으로 수행하여 Master Node를 초기 구성한다.  추가로 IP대역을 변경하고 싶으면 pod-network-cidr 설정으로 K8S POD의 네트워크의 설정을 변경 가능하며, 해당값은 실제 호스트 네트워크와 절대로 겹치지 않게 주의하여 구성해야 한다. 
 
 ```
-kubeadm init --pod-network-cidr=10.244.0.0/16
+kubeadm init 
 ```
 
 ```
-[root@test-master /]# kubeadm init --pod-network-cidr=10.244.0.0/16
+[root@test-master /]# kubeadm init
 W0520 09:12:34.249547    9675 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.2
 [preflight] Running pre-flight checks
@@ -674,14 +674,14 @@ kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
 ```
 위에서 다음 두 부분은 Client와 Node 서버 구성에 사용되므로 반드시 기록해 둔다.
 
-#### 가. Kubernetes Client 환경설정
+#### 가. Kubernetes Client 환경설정(실행하지 말고 기록만 해둠)
 ```
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-#### 나. Kubernetes Cluster Join 명령
+#### 나. Kubernetes Cluster Join 명령(실행하지 말고 기록만 해둠)
 ```
 kubeadm join 192.168.111.169:6443 --token dbfxly.upq447u4wojz3agj \
     --discovery-token-ca-cert-hash sha256:28d12bc6920e3ef9a8f61f5f3c3ae55da980ab3c5253e450128ef51743280eaa
