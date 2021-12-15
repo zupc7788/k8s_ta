@@ -1553,24 +1553,23 @@ kubectl apply -f ./registry-pv-pvc.yaml
 도커 레지스트리를 생성하기 위한 Ingress, Service, Deployment를 생성한다.  Ingress생성시에는 proxy-body-size를 0으로 설정해서 무제한으로 하거나 적정한 사이즈로 설정해야 한다. 해당 설정은 TCP소켓 통신시 데이터 사이즈를 정하는 설정으로, 기본값으로 구성할 경우 대용량 Docker Image 전송이 불가능하다.
 
 ```
-apiVersion: extensions/v1beta1
+[root@rinko-master1 ~]# cat docker-registry-svc-deploy.yaml
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: ingress-docker-registry
- annotations:
-   nginx.ingress.kubernetes.io/proxy-body-size: "0"
-   nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-   nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-   kubernetes.io/tls-acme: 'true'
 spec:
  rules:
- - host: registry.localtest.com
+ - host: registry.local.com
    http:
      paths:
      - path: /
+       pathType: Prefix
        backend:
-         serviceName: svc-docker-registry
-         servicePort: 5000
+         service:
+            name: svc-docker-registry
+            port:
+              number: 5000
 ---
 apiVersion: v1
 kind: Service
@@ -1610,7 +1609,8 @@ spec:
       volumes:
       - name : pvc-volume
         persistentVolumeClaim:
-          claimName: pvc-docker-registry  
+          claimName: pvc-docker-registry
+
 ```
 
 #### 나. docker-registry-svc-deploy.yaml 적용
