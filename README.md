@@ -1827,7 +1827,7 @@ NFS를 마운트해서 첨부파일을 호출하는 Application을 배포한다.
 
 [tomcat-application.yaml]
 ```
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: ingress-test-was
@@ -1837,9 +1837,13 @@ spec:
    http:
      paths:
      - path: /
+       pathType: Prefix
        backend:
-         serviceName: svc-tomcat
-         servicePort: 8080
+         service:
+            name: svc-tomcat
+            port:
+              number: 8080
+ ingressClassName: nginx
 ---
 apiVersion: v1
 kind: Service
