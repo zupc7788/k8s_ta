@@ -1558,9 +1558,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: ingress-docker-registry
+ annotations:
+   nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
  rules:
- - host: registry.local.com
+ - host: registry.localtest.com
    http:
      paths:
      - path: /
@@ -1570,6 +1572,7 @@ spec:
             name: svc-docker-registry
             port:
               number: 5000
+ ingressClassName: nginx
 ---
 apiVersion: v1
 kind: Service
@@ -1610,6 +1613,7 @@ spec:
       - name : pvc-volume
         persistentVolumeClaim:
           claimName: pvc-docker-registry
+
 
 ```
 
